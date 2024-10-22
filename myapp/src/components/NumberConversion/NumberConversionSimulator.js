@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import SelectFrom from './SelectForm';
 const NumberConversionSimulator = () => {
   const [number, setNumber] = useState('');
   const [base, setBase] = useState(10);
@@ -32,11 +32,7 @@ const NumberConversionSimulator = () => {
       </label>
       <label>
         Convert to Base:
-        <select value={base} onChange={(e) => setBase(parseInt(e.target.value))}>
-          <option value={2}>Binary</option>
-          <option value={8}>Octal</option>
-          <option value={16}>Hexadecimal</option>
-        </select>
+          <SelectFrom setBase={setBase}/>
       </label>
       <button onClick={convertNumber}>Convert</button>
       {conversionResult && <p>Converted Number: {conversionResult}</p>}
