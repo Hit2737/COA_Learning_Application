@@ -1,24 +1,46 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import PerformanceMetricsAnalyzer from './components/PerformanceComponents/PerformanceMetricsAnalyzer';
-import CacheReplacementVisualizer from './components/CacheComponents/CacheReplacementVisualizer';
-import NumberConversionSimulator from './components/NumberConversion/NumberConversionSimulator';
+import Navbar from './components/Navbar';
+import ToolBox from './components/ToolBox';
+import About from './components/About';
+import PerformanceMetricAnalyser from './components/PMA';
+import NumberConvertor from './components/NC';
+import CacheSimulator from './components/CS';
 import './App.css';
+import { useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+
+
 
 function App() {
+  const [mode, setMode] = useState('light')
+
+  const toggleMode = () => {
+    if (mode === 'light') {
+      setMode('dark')
+      document.body.style.backgroundColor = "#343a40"
+      document.body.style.color = "white"
+    } else {
+      setMode('light')
+      document.body.style.backgroundColor = "#fff"
+      document.body.style.color = "#000"
+    }
+  }
+
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/performance-metrics" element={<PerformanceMetricsAnalyzer />} />
-          <Route path="/cache-visualizer" element={<CacheReplacementVisualizer />} />
-          <Route path="/number-conversion" element={<NumberConversionSimulator />} />
-        </Routes>
-      </div>
-    </Router>
+    <>
+      <Router>
+        <Navbar title='COA-GUITool' mode={mode} toggleMode={toggleMode} />
+        <div className="container my-3">
+          <Routes>
+            <Route exact path='/' element={<ToolBox mode={mode} />} />
+            <Route exact path='/about' element={<About />} />
+            <Route exact path='/performacemetricanalyser' element={<PerformanceMetricAnalyser mode={mode} />} />
+            <Route exact path='/numberconvertor' element={<NumberConvertor mode={mode} />} />
+            <Route exact path='/cachesimulator' element={<CacheSimulator mode={mode} />} />
+          </Routes>
+        </div>
+      </Router>
+    </>
   );
 }
 
