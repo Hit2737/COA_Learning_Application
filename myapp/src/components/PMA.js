@@ -10,13 +10,15 @@ export default function PerformanceMetricAnalyser({ mode, showAlert }) {
         seqIns: 'Number of Sequential Instructions (which cannot be parallelized)',
         parIns: 'Number of Instructions that can be executed on multiple cores parallelly',
         cpi: 'Number of Clock Cycles an Instruction takes to execute',
-        clkRate: 'Number of Clock Cycles per 1e-9 seconds'
+        clkRate: 'Number of Clock Cycles per 1e-9 seconds',
+        overhead: 'Overhead Time',
     }
     const [coreCount, setCoreCount] = useState(1);
     const [seqIns, setSeqIns] = useState(0);
     const [parIns, setParIns] = useState(0);
     const [cpi, setCPI] = useState(0);
     const [clkRate, setClkRate] = useState(0);
+    const [overhead, setOverhead] = useState(0);
     // one more missing state
     // console.log(coreCount, seqIns, parIns, cpi, clkRate);
     return (
@@ -30,13 +32,14 @@ export default function PerformanceMetricAnalyser({ mode, showAlert }) {
                         <InputValue mode={mode} id='parIns' title='Parallelizable Ins.' content={info.parIns} type='number' setValue={setParIns} value={parIns} placeholder='Enter No. of Par. Ins.' min={0} max={100} />
                         <InputValue mode={mode} id='cpi' title='CPI' content={info.cpi} type='float' setValue={setCPI} value={cpi} placeholder='Enter CPI' min={0} max={100} />
                         <InputValue mode={mode} id='clkRate' title='Clock Rate (GHz)' content={info.clkRate} type='float' setValue={setClkRate} value={clkRate} placeholder='Enter Clock Rate' min={0} max={100} />
+                        <InputValue mode={mode} id='overhead' title='Overhead Time (s)' content={info.overhead} type='float' setValue={setOverhead} value={overhead} placeholder='Enter Overhead Time' min={0} max={100000000} />
                     </div>
                     <div className="row">
                         <div className="col">
 
                         </div>
                     </div>
-                    <Output mode={mode} coreCount={coreCount} seqIns={seqIns} parIns={parIns} cpi={cpi} clkRate={clkRate} showAlert={showAlert} />
+                    <Output mode={mode} coreCount={coreCount} seqIns={seqIns} parIns={parIns} cpi={cpi} clkRate={clkRate} overhead={overhead} showAlert={showAlert} />
                     <Graphs />
                 </div>
                 <div className="col-md-4 border" style={{ borderRadius: '10px', opacity: '40%' }}>
