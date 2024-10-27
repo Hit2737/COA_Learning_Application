@@ -8,8 +8,7 @@ import './App.css';
 import { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Routes, Route } from 'react-router-dom'
-
-
+import Alert from './components/Alert';
 
 function App() {
   const [mode, setMode] = useState('light')
@@ -25,16 +24,30 @@ function App() {
       document.body.style.color = "#000"
     }
   }
+  const [alert, setAlert] = useState(null)
+
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type,
+    })
+    setTimeout(() => {
+      setAlert(null);
+    }, 2000);
+  }
+
+
 
   return (
     <>
       <Router>
         <Navbar title='COA-GUITool' mode={mode} toggleMode={toggleMode} />
+        <Alert alert={alert} />
         <div className="container my-3">
           <Routes>
             <Route exact path='/' element={<ToolBox mode={mode} />} />
             <Route exact path='/about' element={<About />} />
-            <Route exact path='/performacemetricanalyser' element={<PerformanceMetricAnalyser mode={mode} />} />
+            <Route exact path='/performacemetricanalyser' element={<PerformanceMetricAnalyser mode={mode} showAlert={showAlert} />} />
             <Route exact path='/numberconvertor' element={<NumberConvertor mode={mode} />} />
             <Route exact path='/cachesimulator' element={<CacheSimulator mode={mode} />} />
           </Routes>
