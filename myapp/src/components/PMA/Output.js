@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OutputLine from './OutputLine';
 
 export default function Output({ mode, coreCount, seqIns, parIns, cpi, clkRate, overhead, showAlert }) {
@@ -29,7 +29,7 @@ export default function Output({ mode, coreCount, seqIns, parIns, cpi, clkRate, 
         return false;
     }
 
-    const calcOutput = () => {
+    useEffect(() => {
         if (wrongInputs()) {
             setOutput({
                 totalExeTime: 0,
@@ -46,9 +46,9 @@ export default function Output({ mode, coreCount, seqIns, parIns, cpi, clkRate, 
         }
 
         let tIns = Number(seqIns) + Number(parIns);
-        let sExeTime = seqIns * cpi * clkRate;
-        let pExeTime = parIns * cpi * clkRate / coreCount;
-        let tSeqExeTime = tIns * cpi * clkRate;
+        let sExeTime = seqIns * cpi / clkRate;
+        let pExeTime = parIns * cpi / clkRate / coreCount;
+        let tSeqExeTime = tIns * cpi / clkRate;
         let tExeTime = sExeTime + pExeTime + Number(overhead);
         let tput = tIns / tExeTime;
         let speedup = tSeqExeTime / tExeTime;
@@ -56,16 +56,16 @@ export default function Output({ mode, coreCount, seqIns, parIns, cpi, clkRate, 
 
 
         setOutput({
-            totalExeTime: tExeTime.toExponential(2),
-            tput: tput.toExponential(2),
-            speedup: speedup.toExponential(2),
-            efficiency: efficiency.toExponential(2),
-            totalIns: tIns.toExponential(2),
-            seqExeTime: sExeTime.toExponential(2),
-            parExeTime: pExeTime.toExponential(2),
-            totalSeqExeTime: tSeqExeTime.toExponential(2)
+            totalExeTime: (tExeTime > 100000 || (tExeTime < 0.001 && tExeTime !== 0)) ? tExeTime.toExponential(2) : tExeTime.toFixed(2),
+            tput: (tput > 100000 || (tput < 0.001 && tput !== 0)) ? tput.toExponential(2) : tput.toFixed(2),
+            speedup: (speedup > 100000 || (speedup < 0.001 && speedup !== 0)) ? speedup.toExponential(2) : speedup.toFixed(2),
+            efficiency: (efficiency > 100000 || (efficiency < 0.001 && efficiency !== 0)) ? efficiency.toExponential(2) : efficiency.toFixed(2),
+            totalIns: (tIns > 100000 || (tIns < 0.001 && tIns !== 0)) ? tIns.toExponential(2) : tIns.toFixed(2),
+            seqExeTime: (sExeTime > 100000 || (sExeTime < 0.001 && sExeTime !== 0)) ? sExeTime.toExponential(2) : sExeTime.toFixed(2),
+            parExeTime: (pExeTime > 100000 || (pExeTime < 0.001 && pExeTime !== 0)) ? pExeTime.toExponential(2) : pExeTime.toFixed(2),
+            totalSeqExeTime: (tSeqExeTime > 100000 || (tSeqExeTime < 0.001 && tSeqExeTime !== 0)) ? tSeqExeTime.toExponential(2) : tSeqExeTime.toFixed(2)
         })
-    };
+    }, [coreCount, seqIns, parIns, cpi, clkRate, overhead, showAlert]);
 
     return (
         <>
@@ -80,7 +80,7 @@ export default function Output({ mode, coreCount, seqIns, parIns, cpi, clkRate, 
                 <OutputLine title='Efficiency' value={output.efficiency} />
             </div>
             <div className="container">
-                <button className={`btn btn-${mode} btn-outline-${mode === 'light' ? 'dark' : 'light'} mt-3`} onClick={calcOutput}>Calculate</button>
+                {/* <button className={`btn btn-${mode} btn-outline-${mode === 'light' ? 'dark' : 'light'} mt-3`} onClick={calcOutput}>Calculate</button> */}
             </div>
         </>
     )
