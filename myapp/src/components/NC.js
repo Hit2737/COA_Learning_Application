@@ -12,21 +12,34 @@ export default function NumberConvertor({mode}) {
     function handleNumber(e){
         setNumber(e.target.value)
     }
+    function evaluate(){
+        
+        convertBase(number,fromBase,toBase)
+    }
+
     console.log(number,fromBase,toBase)
     return (
-        <div>
-            <div className="row">
-                <div className='col'>
-                    <SelectItem id="converFrom" setBase={setFromBase} base={fromBase}/>
+        <>
+            <div className="container-fluid">
+                <div className="row">
+                    <div className='col'>
+                        <SelectItem id="converFrom" setBase={setFromBase} base={fromBase}/>
+                    </div>
+                    <div className='col'>
+                        <input type="text" id="from" className="form-control" aria-label="Text input with dropdown button" placeholder="Enter valid number to convert to"  onChange={handleNumber}></input>
+                    </div>
+                    <div className='col'>
+                        <SelectItem id="converTo" setBase={setToBase} base={toBase}/>
+                    </div>
+                    <div className='col'>
+                        <input type="text" id="to" className="form-control" aria-label="Text input with dropdown button" placeholder='Result'></input>
+                    </div>
                 </div>
-                <div className='col'>
-                    <input type="text" id="from" className="form-control" aria-label="Text input with dropdown button" placeholder="Enter valid number to convert to"  onChange={handleNumber}></input>
-                </div>
-                <div className='col'>
-                    <SelectItem id="converTo" setBase={setToBase} base={toBase}/>
-                </div>
-                <div className='col'>
-                    <input type="text" id="to" className="form-control" aria-label="Text input with dropdown button" placeholder='Result'></input>
+
+                <div className="row">
+                    <div className="col-2">
+                        <button type="button" className="btn btn-primary" onClick={evaluate} >Convert</button>
+                    </div>    
                 </div>
             </div>
 
@@ -37,5 +50,5 @@ export default function NumberConvertor({mode}) {
                     <DisplayResult number />
                 </div>
             </div>
-        </div>)
+        </>)
 }

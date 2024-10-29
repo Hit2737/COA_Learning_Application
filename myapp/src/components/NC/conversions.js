@@ -1,12 +1,12 @@
 // Function to validate input based on the source base (supports fractional part)
-function isValidInput(input, base) {
+export function isValidInput(input, base) {
     const validChars = "0123456789ABCDEF".slice(0, base);
     const regex = new RegExp(`^[${validChars}]+(\\.[${validChars}]+)?$`, "i");
     return regex.test(input);
 }
 
 // Function to convert integer part from any base to decimal
-function baseToDecimalInteger(integerPart, base) {
+export function baseToDecimalInteger(integerPart, base) {
     let decimal = 0;
     const steps = [];
     for (let i = 0; i < integerPart.length; i++) {
@@ -19,7 +19,7 @@ function baseToDecimalInteger(integerPart, base) {
 }
 
 // Function to convert fractional part from any base to decimal
-function baseToDecimalFraction(fractionPart, base) {
+export function baseToDecimalFraction(fractionPart, base) {
     let decimal = 0;
     const steps = [];
     for (let i = 0; i < fractionPart.length; i++) {
@@ -32,7 +32,7 @@ function baseToDecimalFraction(fractionPart, base) {
 }
 
 // Function to convert decimal integer part to any base
-function decimalToBaseInteger(decimal, base) {
+export function decimalToBaseInteger(decimal, base) {
     let quotient = Math.floor(decimal);
     const steps = [];
     const remainders = [];
@@ -50,7 +50,7 @@ function decimalToBaseInteger(decimal, base) {
 }
 
 // Function to convert decimal fractional part to any base
-function decimalToBaseFraction(decimal, base, precision = 5) {
+export function decimalToBaseFraction(decimal, base, precision = 5) {
     let fraction = decimal - Math.floor(decimal);
     const steps = [];
     const digits = [];
@@ -67,7 +67,7 @@ function decimalToBaseFraction(decimal, base, precision = 5) {
 }
 
 // Main function to handle conversion between any two bases with fractional parts
-function convertBase(input, fromBase, toBase) {
+export function convertBase(input, fromBase, toBase) {
     // Validate input
     if (!isValidInput(input, fromBase)) {
         return `Invalid input for base ${fromBase}`;
