@@ -2,7 +2,7 @@ import Graphs from './PMA/Graphs';
 import InputValue from './InputValue';
 import React, { useState } from 'react';
 import Output from './PMA/Output';
-import CPIImpactVisualizer from './PMA/Visualizer';
+import CalVisualizer from './PMA/CalVisualizer';
 
 
 export default function PerformanceMetricAnalyser({ mode, showAlert }) {
@@ -33,18 +33,18 @@ export default function PerformanceMetricAnalyser({ mode, showAlert }) {
                         <InputValue mode={mode} id='parIns' title='Parallelizable Ins.' content={info.parIns} type='number' setValue={setParIns} value={parIns} placeholder='Enter No. of Par. Ins.' min={0} max={100000} />
                         <InputValue mode={mode} id='cpi' title='CPI' content={info.cpi} type='float' setValue={setCPI} value={cpi} placeholder='Enter CPI' step={0.005} min={0.005} max={100} />
                         <InputValue mode={mode} id='clkRate' title='Clock Rate (GHz)' content={info.clkRate} type='float' setValue={setClkRate} value={clkRate} placeholder='Enter Clock Rate' step={0.005} min={0.005} max={100} />
-                        <InputValue mode={mode} id='overhead' title='Overhead Time (ns)' content={info.overhead} type='float' setValue={setOverhead} value={overhead} placeholder='Enter Overhead Time' min={0} max={100000000} />
+                        <InputValue mode={mode} id='overhead' title='Overhead Time (ns)' content={info.overhead} type='float' setValue={setOverhead} value={overhead} placeholder='Enter Overhead Time' step={100} min={0} max={100000} />
                     </div>
                     <div className="row">
                         <div className="col">
 
                         </div>
                     </div>
-                    <Output mode={mode} coreCount={coreCount} seqIns={seqIns} parIns={parIns} cpi={cpi} clkRate={clkRate} overhead={overhead} showAlert={showAlert} />
+                    <Output coreCount={coreCount} seqIns={seqIns} parIns={parIns} cpi={cpi} clkRate={clkRate} overhead={overhead} showAlert={showAlert} />
                     <Graphs />
                 </div>
                 <div className="col-md-4 border" style={{ borderRadius: '10px' }}>
-
+                    <CalVisualizer coreCount={coreCount} cpi={cpi} clkRate={clkRate} seqIns={seqIns} parIns={parIns} overhead={overhead} />
                 </div>
             </div>
         </>

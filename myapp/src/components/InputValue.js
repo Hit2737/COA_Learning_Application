@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 
-export default function InputValue({ mode = 'light', id = 'id', title = 'title', content = 'content', type = 'number', setValue, value = 0, placeholder = '', min = 0, max = 100, step = 1 }) {
+export default function InputValue({ mode = 'dark', id = 'id', title = 'title', content = 'content', type = 'number', setValue, value = 0, placeholder = '', min = 0, max = 100, step = 1 }) {
     useEffect(() => {
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         tooltipTriggerList.forEach(tooltipTriggerEl => {

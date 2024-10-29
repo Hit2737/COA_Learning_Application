@@ -33,7 +33,7 @@ function App() {
     })
     setTimeout(() => {
       setAlert(null);
-    }, 2000);
+    }, 500);
   }
 
 

@@ -38,3 +38,9 @@
     transform: rotate(360deg);
   }
 }
+
+.latex-font {
+  font-family: 'Times New Roman', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1em;
+  color: #333;
+}
