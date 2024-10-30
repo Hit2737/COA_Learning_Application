@@ -12,7 +12,6 @@ import Alert from './components/Alert';
 
 function App() {
   const [mode, setMode] = useState('light')
-
   const toggleMode = () => {
     if (mode === 'light') {
       setMode('dark')

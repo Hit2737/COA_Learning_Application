@@ -15,7 +15,7 @@ export default function InputValue({ mode = 'dark', id = 'id', title = 'title', 
                 <p>{title}: {value}</p>
             </span>
             <input id={id} className={`text-bg-${mode} border`} type={type} value={value} onChange={(e) => { setValue(e.target.value) }} placeholder={placeholder} min={min} max={max} style={{ width: '100%', borderRadius: '5px' }} />
-            <input id={id} type="range" value={value} onChange={(e) => { setValue(e.target.value) }} placeholder={placeholder} step={step} min={min} max={max} style={{ width: '100%' }} />
+            <input id={id} type="range" value={value} onChange={(e) => { setValue(e.target.value) }} placeholder={placeholder} step={step} min={min} max={max} style={{ width: '100%', accentColor: '#6c757d' }} />
         </div>
     )
 }

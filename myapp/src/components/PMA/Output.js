@@ -72,6 +72,7 @@ export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhe
                 <OutputLine title='Total Instructions' value={output.totalIns} />
                 <OutputLine title='Sequential Execution Time (ns)' value={output.seqExeTime} />
                 <OutputLine title='Parallel Execution Time (ns)' value={output.parExeTime} />
+                <OutputLine title='Total Sequential Execution Time (ns)' value={output.totalSeqExeTime} />
                 <OutputLine title='Total Execution Time (ns)' value={output.totalExeTime} />
                 <OutputLine title='Speedup' value={output.speedup} />
                 <OutputLine title='Throughput' value={output.tput} />
