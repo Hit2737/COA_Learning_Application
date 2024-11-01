@@ -1,0 +1,90 @@
+.container {
+    max-width: 100%;
+}
+
+.conversion-container {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.conversion-row {
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+.scrollable-row {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.box {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.dot {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.digit-top {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.digit-bottom {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.symbol {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #9f9c9c;
+}
+
+.result-box {
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+
+    /* width: 100%; */
+    /* max-width: 200px; Set a max-width to limit the size */
+    padding: 8px;
+    background-color: #4CAF50;
+    border: 1px solid #ddd;
+    /* overflow-wrap: break-word; Allow long text to wrap */
+    /* word-break: break-all; Break words if needed */
+    white-space: normal;
+    text-align: center;
+    
+}
+
+@media (max-width: 768px) {
+    .box, .result-box {
+        width: 50px;
+        height: 50px;
+    }
+
+    .symbol {
+        font-size: 1.2em;
+    }
+
+    .result {
+        font-size: 1em;
+    }
+}

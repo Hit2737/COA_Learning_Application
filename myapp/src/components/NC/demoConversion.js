@@ -1,91 +1,100 @@
 // Function to validate input based on the source base (supports fractional part)
-export function isValidInput(input, base) {
-    
+function isValidInput(input, base) {
     const validChars = "0123456789ABCDEF".slice(0, base);
     const regex = new RegExp(`^[${validChars}]+(\\.[${validChars}]+)?$`, "i");
-    console.log("Inside isValidInput function",input,base,regex.test(input))
     return regex.test(input);
 }
 
 // Function to convert integer part from any base to decimal
-export function baseToDecimalInteger(integerPart, base) {
+function baseToDecimalInteger(integerPart, base) {              //This function takes (string, number)
     let decimal = 0;
     const steps = [];
     for (let i = 0; i < integerPart.length; i++) {
         const digit = parseInt(integerPart[i], base);
         const power = integerPart.length - 1 - i;
         decimal += digit * Math.pow(base, power);
-        steps.push(digit);
+        steps.push(`(${digit} × ${base}^${power})`);
     }
-    return { decimal, steps };
+    return { decimal, steps: steps.join(" + ") };
 }
 
 // Function to convert fractional part from any base to decimal
-export function baseToDecimalFraction(fractionPart, base) {
+function baseToDecimalFraction(fractionPart, base) {
     let decimal = 0;
     const steps = [];
     for (let i = 0; i < fractionPart.length; i++) {
         const digit = parseInt(fractionPart[i], base);
         const power = -(i + 1);
         decimal += digit * Math.pow(base, power);
-        steps.push(digit);
+        steps.push(`(${digit} × ${base}^${power})`);
     }
-    return { decimal, steps };
+    return { decimal, steps: steps.join(" + ") };
 }
 
 // Function to convert decimal integer part to any base
-export function decimalToBaseInteger(decimal, base) {
+function decimalToBaseInteger(decimal, base) {
     let quotient = Math.floor(decimal);
     const steps = [];
     const remainders = [];
     let digitPosition = 0;
 
-    while (quotient > 0) {
-        const remainder = quotient % base;
-        remainders.unshift(remainder.toString(base).toUpperCase());
-        steps.push(`${quotient} / ${base} = ${Math.floor(quotient / base)}, Remainder = ${remainder} (Digit #${digitPosition})`);
-        quotient = Math.floor(quotient / base);
-        digitPosition++;
+    if (quotient === 0) {
+        remainders.push("0");
+        steps.push("0 / " + base + " = 0, Remainder = 0");
+    } else {
+        while (quotient > 0) {
+            const remainder = quotient % base;
+            remainders.unshift(remainder.toString(base).toUpperCase());
+            steps.push(
+                `${quotient} / ${base} = ${Math.floor(quotient / base)}, Remainder = ${remainder} (Digit #${digitPosition})`
+            );
+            quotient = Math.floor(quotient / base);
+            digitPosition++;
+        }
     }
 
     return { converted: remainders.join(""), steps };
 }
 
 // Function to convert decimal fractional part to any base
-export function decimalToBaseFraction(decimal, base, precision = 5) {
+function decimalToBaseFraction(decimal, base, precision = 5) {
     let fraction = decimal - Math.floor(decimal);
-    const stepsLine = [];
+    const steps = [];
     const digits = [];
-    const steps = []
+    
     for (let i = 0; i < precision; i++) {
         fraction *= base;
         const digit = Math.floor(fraction);
         digits.push(digit.toString(base).toUpperCase());
-        steps.push(fraction.toFixed(5));
-        stepsLine.push(`Step ${i + 1}: ${fraction.toFixed(5)} * ${base} = ${fraction.toFixed(5)}, Integral part: ${digit}`);
+        steps.push(
+            `${(fraction + digit).toFixed(5)} * ${base} = ${digit} (Digit #${i})`
+        );
         fraction -= digit;
-        if (fraction === 0) break; // Stop if the fraction becomes zero
+
+        // Stop if the fraction part becomes zero
+        if (fraction === 0) break;
     }
 
-    return { converted: `.${digits.join("")}`,  steps };
+    return { converted: digits.join(""), steps };
 }
 
 // Main function to handle conversion between any two bases with fractional parts
-export function convertBase(input, fromBase, toBase) {
+function convertBase(input, fromBase, toBase) {
     // Validate input
     if (!isValidInput(input, fromBase)) {
         return `Invalid input for base ${fromBase}`;
     }
 
     // Split into integer and fractional parts
-    const [integerPart, fractionPart] = input.split('.');
+    // If no fractional part is set to undefined
+    const [integerPart, fractionPart] = input.split('.');          
 
     // Convert integer part from `fromBase` to decimal
     const { decimal: integerDecimal, steps: toDecimalIntSteps } = baseToDecimalInteger(integerPart, fromBase);
     
     // Convert fractional part from `fromBase` to decimal if exists
     let fractionalDecimal = 0;
-    let toDecimalFracSteps = [];
+    let toDecimalFracSteps = "";
     if (fractionPart) {
         const result = baseToDecimalFraction(fractionPart, fromBase);
         fractionalDecimal = result.decimal;
@@ -123,7 +132,7 @@ export function convertBase(input, fromBase, toBase) {
         fromDecimalFracSteps.forEach(step => console.log(step));
     }
 
-    const finalResult = `${integerConverted}${fractionalConverted}`;
+    const finalResult = `${integerConverted}.${fractionalConverted}`;
     console.log(`= (${finalResult})_${toBase}`);
 
     // Return the final converted value and steps as an object
@@ -131,7 +140,6 @@ export function convertBase(input, fromBase, toBase) {
         original: input,
         fromBase,
         toBase,
-        decimalValue,
         result: finalResult,
         steps: {
             toDecimalIntSteps,

@@ -1,0 +1,32 @@
+.container {
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.conversion-table tbody tr:hover {
+    background-color: #d1e7dd;
+}
+.conversion-table tbody tr:hover .integral-column {
+    background-color: #eae1ab;
+}
+@keyframes fadeIn {
+    from { background-color: #fff9e6; }
+    to { background-color: #ffd966; }
+}
+/* Circle for Integral Part */
+/* .integral-circle {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ffd966;
+    color: #333;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 30px;
+} */
+
+
