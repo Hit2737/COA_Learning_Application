@@ -3,6 +3,7 @@ import SelectItem from './NC/select'
 // import { convertBase } from './NC/conversions'
 import { DisplayResult } from './NC/displayResult'
 import { useState } from 'react'
+import IeeeSinglePrecision from './NC/DecimalToIeeeSingle'
 
 
 export default function NumberConvertor({ mode }) {
@@ -51,5 +52,6 @@ export default function NumberConvertor({ mode }) {
                     <DisplayResult number={number} fromBase={fromBase} toBase={toBase} />
                 </div>
             </div>
+            {/* <IeeeSinglePrecision /> */}
         </>)
 }
