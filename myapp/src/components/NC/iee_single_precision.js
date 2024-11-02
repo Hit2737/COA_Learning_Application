@@ -2,24 +2,30 @@ import React from "react";
 
 
 function IeeeSinglePrecision({ number }) {
+    if (number === undefined) {
+        number = 50.1;
+    }
     const sign = number < 0 ? 1 : 0;
-    const strVal = number.toString();
-    let [integerPart, fractionPart = ""] = strVal.split(".");
-    integerPart = integerPart.split("");
-    fractionPart = fractionPart.split("");
 
-    let temp_power = 0;
-
-    for (let i = 0; i < integerPart.length; i++) {
-        temp_power += parseInt(integerPart[i]) * Math.pow(2, i);
+    if (number < 0) {
+        number *= -1;
     }
 
-    for (let i = 0; i < fractionPart.length; i++) {
-        temp_power += parseInt(fractionPart[i]) * Math.pow(2, -(i + 1));
+    let temp_power = number;
+    let temp_exponent = 0;
+
+    while (temp_power >= 2) {
+        temp_power /= 2;
+        temp_exponent++;
     }
 
-    const exponent = Math.floor(Math.log2(temp_power));
-    const mantissa = temp_power / Math.pow(2, exponent);
+    while (temp_power < 1) {
+        temp_power *= 2;
+        temp_exponent--;
+    }
+
+    const exponent = temp_exponent;
+    const mantissa = number / Math.pow(2, exponent) - 1;
     const exponentBits = exponent + 127;
     let exponentBinary = exponentBits.toString(2);
 
@@ -34,54 +40,41 @@ function IeeeSinglePrecision({ number }) {
         mantissaBinary += "0";
     }
 
+    mantissaBinary = mantissaBinary.slice(0, 23);
+    exponentBinary = exponentBinary.slice(0, 8);
+
     const ieeeSinglePrecision = sign + exponentBinary + mantissaBinary;
 
     return (
-        <div className="container mt-4">
-        <h3 className="text-center mb-5">IEEE-754 Single Precision</h3>
-        <div className="row justify-content-center">
-            <div className="col-auto">
-            <div className="conversion-container mb-2">
-                <div className="conversion-row d-flex align-items-center">
-                <div className="scrollable-row d-flex align-items-center mx-2">
-                    {integerPart.map((digit, index) => (
-                    <div key={index} className="box mx-1">
-                        <span className="digit-top">{digit}</span>
-                    </div>
-                    ))}
-                    {fractionPart.length === 0 ? null : (
-                    <span className="dot mx-2">.</span>
-                    )}
-                    {fractionPart.map((digit, index) => (
-                    <div key={index} className="box mx-1">
-                        <span className="digit-top">{digit}</span>
-                    </div>
-                    ))}
-                </div>
-                </div>
+        <div className="ieee-container">
+            <h1>IEEE 754 Single Precision Conversion</h1>
+            <div className="conversion-step">
+                <h2>Step 1: Sign Bit</h2>
+                <p>The sign bit is determined by the sign of the number. If the number is negative, the sign bit is 1; otherwise, it is 0.</p>
+                <p><strong>Example:</strong> For the number {number}, the sign bit is {sign}.</p>
+                <p><strong>Sign Bit:</strong> {sign}</p>
             </div>
-            <div className="symbol text-center mx-auto mb-2">×</div>
-            <div className="conversion-container">
-                <div className="conversion-row d-flex align-items-center">
-                <div className="scrollable-row d-flex align-items-center mx-2">
-                    <div className="box mx-1">
-                    <span className="digit-top">{sign}</span>
-                    </div>
-                    {exponentBinary.split("").map((digit, index) => (
-                    <div key={index} className="box mx-1">
-                        <span className="digit-top">{digit}</span>
-                    </div>
-                    ))}
-                    {mantissaBinary.split("").map((digit, index) => (
-                    <div key={index} className="box mx-1">
-                        <span className="digit-top">{digit}</span>
-                    </div>
-                    ))}
-                </div>
-                </div>
+            <div className="conversion-step">
+                <h2>Step 2: Exponent</h2>
+                <p>The exponent is calculated by adjusting the power of 2 such that the number is represented as a normalized fraction between 1 and 2.</p>
+                <p><strong>Example:</strong> For the number {number}, we adjust it to {temp_power} and find the exponent to be {exponent}.</p>
+                <p><strong>Exponent:</strong> {exponent} (Unbiased)</p>
+                <p>The exponent is then biased by adding 127 to it to fit into the IEEE 754 format.</p>
+                <p><strong>Exponent Bits:</strong> {exponentBinary} (Biased by 127)</p>
             </div>
+            <div className="conversion-step">
+                <h2>Step 3: Mantissa</h2>
+                <p>The mantissa is the fractional part of the number after adjusting the exponent. It represents the significant digits of the number.</p>
+                <p><strong>Example:</strong> For the number {number}, the mantissa is calculated as {mantissa.toFixed(23)}.</p>
+                <p><strong>Mantissa:</strong> {mantissa.toFixed(23)}</p>
+                <p>The mantissa is then converted to binary format.</p>
+                <p><strong>Mantissa Bits:</strong> {mantissaBinary}</p>
             </div>
-        </div>
+            <div className="conversion-result">
+                <h2>IEEE 754 Single Precision Representation</h2>
+                <p>The final IEEE 754 single precision representation is a combination of the sign bit, exponent bits, and mantissa bits.</p>
+                <p><strong>Binary:</strong> {ieeeSinglePrecision}</p>
+            </div>
         </div>
     );
 }
