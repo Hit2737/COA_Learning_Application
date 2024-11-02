@@ -3,7 +3,8 @@ import SelectItem from './NC/select'
 import { convertBase } from './NC/conversions'
 import {DisplayResult} from './NC/displayResult'
 import { useState } from 'react'
-import IeeeSinglePrecision from './NC/iee_single_precision'
+import IeeeSinglePrecision from './NC/DecimalToIeeeSingle'
+
 
 export default function NumberConvertor({mode}) {
     const [number, setNumber] = useState(100101);
@@ -20,7 +21,7 @@ export default function NumberConvertor({mode}) {
     console.log(number,fromBase,toBase)
     return (
         <>
-            {/* <h1 className="text-center my-3">Number System Converter</h1>
+            <h1 className="text-center my-3">Number System Converter</h1>
             <div className="container-fluid">
                 <div className="row">
                     <div className='col'>
@@ -50,7 +51,7 @@ export default function NumberConvertor({mode}) {
                     <label htmlFor="conversionSteps">Steps of Conversion:</label>
                     <DisplayResult number={number} fromBase={fromBase} toBase={toBase} />
                 </div>
-            </div> */}
-            <IeeeSinglePrecision />
+            </div>
+            {/* <IeeeSinglePrecision /> */}
         </>)
 }
