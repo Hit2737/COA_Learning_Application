@@ -158,8 +158,8 @@ export default function DLL({ mode, showAlert }) {
             type: 'smoothstep',
             markerEnd: {
                 type: MarkerType.ArrowClosed,
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
                 color: mode === 'light' ? 'gray' : '#fff',
             },
             style: { stroke: mode === 'light' ? 'gray' : '#fff', strokeWidth: 1.1 },
