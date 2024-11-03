@@ -1,15 +1,17 @@
 import React from 'react';
-import "./DecimalToBase.css";
+import "./DIntToBase.css";
 
-function DecimalToBaseConverter({ decimalValue, base ,setOutputIntVal}) {
-    // Helper function to convert remainder to base notation (e.g., 12 -> C in hexadecimal)
+
+//decimalValue-->decimal value of the number(string)
+//base-->base to convert to(int)
+function DIntToBase({ decimalValue, base ,setOutputIntVal}) {
     const formatRemainder = (remainder) => {
         const baseDigit = remainder >= 10 ? String.fromCharCode(55 + remainder) : remainder; // A=10, B=11, etc.
         return `${baseDigit}`;
     };
     let rem="";
     const getConversionSteps = () => {
-        let number = Math.floor(decimalValue);
+        let number = Math.floor(parseFloat(decimalValue));
         const steps = [];
         let bit = 0;
 
@@ -27,14 +29,26 @@ function DecimalToBaseConverter({ decimalValue, base ,setOutputIntVal}) {
             number = quotient;
             bit++;
         }
-        setOutputIntVal(rem.split('').reverse().join(''));
+        if(number===0 && steps.length===0){
+            setOutputIntVal("0");
+            steps.push({
+                division: `(0)÷${base}`,
+                quotient: 0,
+                remainder: 0,
+                actualRem: 0,
+                bit: 0
+            })
+            setOutputIntVal("0");
+        }else{
+            setOutputIntVal(rem.split('').reverse().join(''));
+        }
         return steps;
     };
 
     const conversionSteps = getConversionSteps();
 
     return (
-        <div className='container align-items-center'>
+        <div className='container nc-container align-items-center'>
             <p className="text-center">We evaluate the integeral part step-by-step</p>
             <div className="conversion-container d-flex align-items-center">
                 <table className="conversion-table">
@@ -73,4 +87,4 @@ function DecimalToBaseConverter({ decimalValue, base ,setOutputIntVal}) {
     );
 }
 
-export default DecimalToBaseConverter;
+export default DIntToBase;

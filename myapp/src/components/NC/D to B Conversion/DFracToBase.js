@@ -1,10 +1,8 @@
-import React from 'react';
-import './FractionalToBase.css';
+import "./DIntToBase.css";
 
-function FractionalToBaseConverter({ decimalValue, base ,setOutputFracVal}) {
+function DFracToBase({ decimalValue, base ,setOutputFracVal}) {
     let decimalFraction = decimalValue - Math.floor(decimalValue);
-    console.log("FractionalToBaseConverter",decimalFraction,base);
-    let frac="0.";
+    let frac="";
     const getConversionSteps = () => {
         let fraction = decimalFraction;
         const steps = [];
@@ -23,14 +21,14 @@ function FractionalToBaseConverter({ decimalValue, base ,setOutputFracVal}) {
             fraction = multiplied - integralPart;
             step++;
         }
-        setOutputFracVal(frac);
+        setOutputFracVal(frac);         // If no fractional part then set to "" o/w 0.325 is stored as 325
         return steps;
     };
 
     const conversionSteps = getConversionSteps();
 
     return (
-        <div className="container">
+        <div className="container nc-container">
             <p className="text-center">We evaluate the fractional part step-by-step</p>
             <div className="conversion-container d-flex justify-content-center">
                 <table className="conversion-table">
@@ -44,6 +42,10 @@ function FractionalToBaseConverter({ decimalValue, base ,setOutputFracVal}) {
                         </tr>
                     </thead>
                     <tbody>
+                        {decimalFraction ===0 && (<tr><td colSpan="5">
+                                <h5>No Fractional Part</h5>
+                                </td>
+                            </tr>)}
                         {conversionSteps.map((step, index) => (
                             <tr key={index}>
                                 <td>{step.step}</td>
@@ -79,4 +81,4 @@ function FractionalToBaseConverter({ decimalValue, base ,setOutputFracVal}) {
     );
 }
 
-export default FractionalToBaseConverter;
+export default DFracToBase;
