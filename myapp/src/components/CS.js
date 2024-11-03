@@ -3,7 +3,7 @@ import DropDown from './CS/DropDown'
 import { useState } from 'react'
 import DLL from './CS/DLL'
 
-export default function CacheSimulator({ mode }) {
+export default function CacheSimulator({ mode, showAlert }) {
     const [algo, setAlgo] = useState('LRU')
     return (
         <>
@@ -14,7 +14,7 @@ export default function CacheSimulator({ mode }) {
             <div className="container my-5">
                 <h4>Simulating {algo} Cache with DLL (Doubly Linked List): </h4>
             </div>
-            <DLL mode={mode} />
+            <DLL mode={mode} showAlert={showAlert} />
         </>
     )
 }

@@ -1,125 +1,231 @@
-import React, { useMemo, useCallback, useState } from 'react';
-import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState, addEdge, MarkerType, ReactFlowProvider } from 'reactflow';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState, MarkerType } from 'reactflow';
 import 'reactflow/dist/style.css';
-
 import DLLNode, { NullNode, AnnotationNode } from './DLLNode';
 
-export default function DLL() {
-    const nodeTypes = useMemo(() => ({
-        dllnode: DLLNode,
-        nullnode: NullNode,
-        annotation: AnnotationNode,
-    }), []);
+const addressMap = new WeakMap();
+let addressCounter = 1000;
 
-    const initialNodes = [
-        {
-            id: '1',
-            type: 'dllnode',
-            position: { x: 0, y: 50 },
-            data: { addr: '1', label: 'Node 1', val: 'A', prev: 'NULL', next: '2' }
-        },
-        {
-            id: '2',
-            type: 'dllnode',
-            position: { x: 200, y: 50 },
-            data: { addr: '2', label: 'Node 2', val: 'B', prev: '1', next: 'NULL' }
-        },
-        {
-            id: 'null',
-            type: 'nullnode',
-            position: { x: 450, y: 0 },
-            data: { addr: '5000', label: 'NULL' }
-        },
-        {
-            id: 'annotation',
-            type: 'annotation',
-            draggable: false,
-            position: { x: 0, y: 0 },
-            data: { label: 'Head', level: 0, arrowStyle: { top: 5, left: 0 } }
+class DoublyLinkedListNode {
+    constructor(data) {
+        this.data = data;
+        this.prev = null;
+        this.next = null;
+        addressMap.set(this, addressCounter++);
+    }
+
+    get address() {
+        return addressMap.get(this);
+    }
+}
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+
+    addNode(data) {
+        const newNode = new DoublyLinkedListNode(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.tail = newNode;
         }
-    ];
+        this.size++;
+    }
 
-    const initialEdges = [
-        { id: 'en1-2', source: '1', sourceHandle: 'next-out', target: '2', targetHandle: 'next-in' },
-        { id: 'ep2-1', source: '2', sourceHandle: 'prev-out', target: '1', targetHandle: 'prev-in' },
-        { id: 'en2-null', source: '2', sourceHandle: 'next-out', target: 'null' }
-    ];
+    deleteNode(address, showAlert) {
+        let current = this.head;
+        while (current && current.address !== address) {
+            current = current.next;
+        }
+        if (!current) {
+            showAlert(`Node with Address ${address} Not Found`, 'danger');
+            return;
+        }
+        if (current.prev) current.prev.next = current.next;
+        if (current.next) current.next.prev = current.prev;
+        if (current === this.head) this.head = current.next;
+        if (current === this.tail) this.tail = current.prev;
+        this.size--;
+    }
 
-    const defaultEdgeOptions = {
-        type: 'smoothstep',
-        markerEnd: {
-            type: MarkerType.ArrowClosed,
-            width: 15,
-            height: 15,
-            color: 'gray'
+    toNodeArray() {
+        const nodes = [];
+        let current = this.head;
+        while (current) {
+            nodes.push(current);
+            current = current.next;
+        }
+        return nodes;
+    }
+}
+
+const nodeTypes = {
+    dllnode: DLLNode,
+    NULLnode: NullNode,
+    annotation: AnnotationNode,
+};
+
+const dll = new DoublyLinkedList();
+
+export default function DLL({ mode, showAlert }) {
+    const initialNodes = useMemo(() => ([
+        {
+            id: 'NULL',
+            type: 'NULLnode',
+            mode: mode,
+            position: { x: 50, y: 400 },
+            data: { addr: 'NULL', label: 'NULL' }
         },
-        style: { stroke: 'gray', strokeWidth: 1.1 },
-    };
+        {
+            id: 'annotate',
+            type: 'annotation',
+            mode: mode,
+            draggable: false,
+            position: { x: 30, y: 0 },
+            data: { label: 'Head', arrowStyle: { top: 5, left: 0 } }
+        }
+    ]), [mode]);
 
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-    const [nodeCounter, setNodeCounter] = useState(2);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [nodeDataToAdd, setNodeDataToAdd] = useState("");
+    const [nodeAddressToDelete, setNodeAddressToDelete] = useState("");
 
-    const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [setEdges]
-    );
+    const renderLinkedList = useCallback(() => {
+        const dllNodes = dll.toNodeArray();
 
-    const addNode = ({ value = 0 }) => {
-        const newNodeId = (nodeCounter + 1).toString();
-        const newNodePosition = { x: 200 * nodeCounter, y: 50 };
-        const newNode = {
-            id: newNodeId,
+        const newNodes = dllNodes.map((node, index) => ({
+            id: node.address.toString(),
             type: 'dllnode',
-            position: newNodePosition,
-            data: { label: `Node ${newNodeId}`, addr: `${newNodeId}`, val: String(value), prev: nodeCounter.toString(), next: 'NULL' }
+            position: { x: 200 * index + 50, y: 100 },
+            data: {
+                label: `Node ${index + 1}`,
+                addr: node.address.toString(),
+                val: node.data,
+                prev: node.prev ? node.prev.address.toString() : 'NULL',
+                next: node.next ? node.next.address.toString() : 'NULL',
+            }
+        }));
+
+        setNodes([...initialNodes, ...newNodes]);
+
+        const defaultEdgeOptions = {
+            type: 'smoothstep',
+            markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 15,
+                height: 15,
+                color: mode === 'light' ? 'gray' : '#fff',
+            },
+            style: { stroke: mode === 'light' ? 'gray' : '#fff', strokeWidth: 1.1 },
         };
 
-        const lastNodeId = nodeCounter.toString();
+        const newEdges = dllNodes.flatMap((node) => [
+            node.next && {
+                id: `en${node.address}-${node.next.address}`,
+                source: node.address.toString(),
+                sourceHandle: 'next-out',
+                target: node.next.address.toString(),
+                targetHandle: 'next-in',
+                ...defaultEdgeOptions,
+            },
+            !node.next && {
+                id: `next-null-${node.address}`,
+                source: node.address.toString(),
+                sourceHandle: 'next-out',
+                target: 'NULL',
+                targetHandle: 'null-in',
+                ...defaultEdgeOptions,
+            },
+            node.prev && {
+                id: `ep${node.address}-${node.prev.address}`,
+                source: node.address.toString(),
+                sourceHandle: 'prev-out',
+                target: node.prev.address.toString(),
+                targetHandle: 'prev-in',
+                ...defaultEdgeOptions,
+            },
+            !node.prev && {
+                id: `prev-null-${node.address}`,
+                source: node.address.toString(),
+                sourceHandle: 'prev-out',
+                target: 'NULL',
+                targetHandle: 'null-in',
+                ...defaultEdgeOptions,
+            }
+        ].filter(Boolean));
 
-        setNodes((nds) => nds.map((node) =>
-            node.id === lastNodeId
-                ? { ...node, data: { ...node.data, next: newNodeId } }
-                : node
-        ));
+        setEdges(newEdges);
+    }, [setNodes, setEdges, mode, initialNodes]);
 
-        setEdges((eds) => {
-            const filteredEdges = eds.filter((edge) => edge.source !== lastNodeId || edge.target !== 'null');
-            return [
-                ...filteredEdges,
-                { id: `en${lastNodeId}-${newNodeId}`, source: lastNodeId, sourceHandle: 'next-out', target: newNodeId, targetHandle: 'next-in' },
-                { id: `ep${newNodeId}-${lastNodeId}`, source: newNodeId, sourceHandle: 'prev-out', target: lastNodeId, targetHandle: 'prev-in' },
-                { id: `en${newNodeId}-null`, source: newNodeId, sourceHandle: 'next-out', target: 'null' }
-            ];
-        });
+    useEffect(() => {
+        renderLinkedList();
+    }, [mode, renderLinkedList]);
 
-        setNodes((nds) => [...nds, newNode]);
-        setNodeCounter((prev) => prev + 1);
+    const handleAddNode = () => {
+        if (nodeDataToAdd === '') showAlert('Node Initialized with Empty Data', 'warning');
+        dll.addNode(nodeDataToAdd);
+        setNodeDataToAdd("");
+        renderLinkedList();
     };
 
+    const handleDeleteNode = () => {
+        if (nodeAddressToDelete === '') showAlert('Please Enter Node Address to Delete', 'danger');
+        dll.deleteNode(parseInt(nodeAddressToDelete), showAlert);
+        setNodeAddressToDelete("");
+        renderLinkedList();
+    };
 
     return (
-        <ReactFlowProvider>
-            <div style={{ height: '80vh', width: '100%' }}>
+        <div className="container">
+            <div className="mt-4 d-flex">
+                <div className="container d-flex align-items-center justify-content-start">
+                    <input
+                        name='nodeDataToAdd'
+                        className={`form-control mb-2 mx-3 text-bg-${mode}`}
+                        type="text"
+                        value={nodeDataToAdd}
+                        onChange={(e) => setNodeDataToAdd(e.target.value)}
+                        placeholder='Enter Node Data To Add'
+                        style={{ width: '300px' }}
+                    />
+                    <button className='btn btn-primary mb-2' onClick={handleAddNode}>Add Node</button>
+                </div>
+                <div className="container d-flex align-items-center justify-content-start">
+                    <input
+                        name='nodeAddressToDelete'
+                        className={`form-control mb-2 mx-3 text-bg-${mode}`}
+                        type="text"
+                        value={nodeAddressToDelete}
+                        onChange={(e) => setNodeAddressToDelete(e.target.value)}
+                        placeholder="Enter Node Address to Delete"
+                        style={{ width: '300px' }}
+                    />
+                    <button className='btn btn-danger mb-2' onClick={handleDeleteNode}>Delete Node</button>
+                </div>
+            </div>
+            <div className="container my-3" style={{ height: '80vh', width: '100%' }}>
                 <ReactFlow
-                    style={{ background: '#f0f0f0' }}
+                    className={`text-bg-${mode}`}
+                    style={{ height: '70vh', width: '100%' }}
                     nodes={nodes}
                     edges={edges}
                     nodeTypes={nodeTypes}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
-                    onConnect={onConnect}
-                    defaultEdgeOptions={defaultEdgeOptions}
-                    fitView
                 >
-                    <Background color="#aaa" gap={20} />
+                    <Background color='black' gap={30} />
                     <Controls />
                     <MiniMap zoomable pannable />
                 </ReactFlow>
-                <div style={{ marginTop: '10px' }}>
-                    <button onClick={addNode}>Add Node</button>
-                </div>
             </div>
-        </ReactFlowProvider>
+        </div>
     );
 }
