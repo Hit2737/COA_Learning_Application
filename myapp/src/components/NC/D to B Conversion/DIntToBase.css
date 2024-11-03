@@ -7,7 +7,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.container {
+.nc-container {
     /* display: flex; */
     justify-content: center;
     align-items: center;
@@ -66,8 +66,12 @@
 
 
 /* You can also add a subtle animation to make it pop */
-.highlight-remainder {
+.highlight-remainder{
     animation: fadeIn 0.5s ease-in-out;
+}
+
+.conversion-table tbody tr:hover .integral-column {
+    background-color: #eae1ab;
 }
 
 @keyframes fadeIn {
@@ -90,3 +94,11 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin: auto;
 }
+.deci {
+    transition: box-shadow 0.3s ease;
+}
+
+.deci:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Creates a shadow for the popup effect */
+}
+
