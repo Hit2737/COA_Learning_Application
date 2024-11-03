@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 export default function Navbar({ title = 'NavBar', mode = 'light', toggleMode }) {
     return (
-        <nav className={`navbar navbar-expand-lg navbar-${mode} bg-${mode}`}>
+        <nav className={`navbar navbar-expand-lg navbar-${mode} bg-${mode}`} style={{ position: 'sticky', width: '100%', top: '0' }}>
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">{title}</Link>
                 {/* <div className="mode-toggler" style={{
