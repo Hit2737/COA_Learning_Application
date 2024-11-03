@@ -39,6 +39,42 @@ class DoublyLinkedList {
         this.size++;
     }
 
+    insertAfter(address, data, showAlert) {
+        let current = this.head;
+        while (current && current.address !== address) {
+            current = current.next;
+        }
+        if (!current) {
+            showAlert(`Node with Address ${address} Not Found`, 'danger');
+            return;
+        }
+        const newNode = new DoublyLinkedListNode(data);
+        newNode.next = current.next;
+        newNode.prev = current;
+        if (current.next) current.next.prev = newNode;
+        current.next = newNode;
+        if (current === this.tail) this.tail = newNode;
+        this.size++;
+    }
+
+    insertBefore(address, data, showAlert) {
+        let current = this.head;
+        while (current && current.address !== address) {
+            current = current.next;
+        }
+        if (!current) {
+            showAlert(`Node with Address ${address} Not Found`, 'danger');
+            return;
+        }
+        const newNode = new DoublyLinkedListNode(data);
+        newNode.prev = current.prev;
+        newNode.next = current;
+        if (current.prev) current.prev.next = newNode;
+        current.prev = newNode;
+        if (current === this.head) this.head = newNode;
+        this.size++;
+    }
+
     deleteNode(address, showAlert) {
         let current = this.head;
         while (current && current.address !== address) {
@@ -97,6 +133,8 @@ export default function DLL({ mode, showAlert }) {
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
     const [nodeDataToAdd, setNodeDataToAdd] = useState("");
     const [nodeAddressToDelete, setNodeAddressToDelete] = useState("");
+    const [insertAddress, setInsertAddress] = useState("");
+    const [insertData, setInsertData] = useState("");
 
     const renderLinkedList = useCallback(() => {
         const dllNodes = dll.toNodeArray();
@@ -183,6 +221,20 @@ export default function DLL({ mode, showAlert }) {
         renderLinkedList();
     };
 
+    const handleInsertAfter = () => {
+        dll.insertAfter(parseInt(insertAddress), insertData, showAlert);
+        setInsertAddress("");
+        setInsertData("");
+        renderLinkedList();
+    };
+
+    const handleInsertBefore = () => {
+        dll.insertBefore(parseInt(insertAddress), insertData, showAlert);
+        setInsertAddress("");
+        setInsertData("");
+        renderLinkedList();
+    };
+
     return (
         <div className="container">
             <div className="mt-4 d-flex">
@@ -211,19 +263,42 @@ export default function DLL({ mode, showAlert }) {
                     <button className='btn btn-danger mb-2' onClick={handleDeleteNode}>Delete Node</button>
                 </div>
             </div>
-            <div className="container my-3" style={{ height: '80vh', width: '100%' }}>
+            <div className="mt-4 d-flex">
+                <div className="container d-flex align-items-center justify-content-start">
+                    <input
+                        name='insertAddress'
+                        className={`form-control mb-2 mx-3 text-bg-${mode}`}
+                        type="text"
+                        value={insertAddress}
+                        onChange={(e) => setInsertAddress(e.target.value)}
+                        placeholder="Enter Insert Position Address"
+                        style={{ width: '300px' }}
+                    />
+                    <input
+                        name='insertData'
+                        className={`form-control mb-2 mx-3 text-bg-${mode}`}
+                        type="text"
+                        value={insertData}
+                        onChange={(e) => setInsertData(e.target.value)}
+                        placeholder="Enter Data for Insert"
+                        style={{ width: '300px' }}
+                    />
+                    <button className='btn btn-primary mb-2' onClick={handleInsertAfter}>Insert After</button>
+                    <button className='btn btn-primary mb-2' onClick={handleInsertBefore}>Insert Before</button>
+                </div>
+            </div>
+            <div style={{ height: '500px' }}>
                 <ReactFlow
-                    className={`text-bg-${mode}`}
-                    style={{ height: '70vh', width: '100%' }}
                     nodes={nodes}
                     edges={edges}
-                    nodeTypes={nodeTypes}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
+                    fitView
+                    nodeTypes={nodeTypes}
                 >
-                    <Background color='black' gap={30} />
+                    <Background />
                     <Controls />
-                    <MiniMap zoomable pannable />
+                    <MiniMap />
                 </ReactFlow>
             </div>
         </div>
