@@ -215,13 +215,20 @@ export default function DLL({ mode, showAlert }) {
     };
 
     const handleDeleteNode = () => {
-        if (nodeAddressToDelete === '') showAlert('Please Enter Node Address to Delete', 'danger');
+        if (nodeAddressToDelete === '') {
+            showAlert('Please Enter Node Address to Delete', 'danger');
+            return;
+        }
         dll.deleteNode(parseInt(nodeAddressToDelete), showAlert);
         setNodeAddressToDelete("");
         renderLinkedList();
     };
 
     const handleInsertAfter = () => {
+        if (insertAddress === "") {
+            showAlert('Please Enter Insert Position Address', 'danger');
+            return;
+        }
         dll.insertAfter(parseInt(insertAddress), insertData, showAlert);
         setInsertAddress("");
         setInsertData("");
@@ -229,6 +236,10 @@ export default function DLL({ mode, showAlert }) {
     };
 
     const handleInsertBefore = () => {
+        if (insertAddress === "") {
+            showAlert('Please Enter Insert Position Address', 'danger');
+            return;
+        }
         dll.insertBefore(parseInt(insertAddress), insertData, showAlert);
         setInsertAddress("");
         setInsertData("");
@@ -267,7 +278,7 @@ export default function DLL({ mode, showAlert }) {
                 <div className="container d-flex align-items-center justify-content-start">
                     <input
                         name='insertAddress'
-                        className={`form-control mb-2 mx-3 text-bg-${mode}`}
+                        className={`form-control mb-2 mx-2 text-bg-${mode}`}
                         type="text"
                         value={insertAddress}
                         onChange={(e) => setInsertAddress(e.target.value)}
@@ -276,18 +287,18 @@ export default function DLL({ mode, showAlert }) {
                     />
                     <input
                         name='insertData'
-                        className={`form-control mb-2 mx-3 text-bg-${mode}`}
+                        className={`form-control mb-2 mx-2 text-bg-${mode}`}
                         type="text"
                         value={insertData}
                         onChange={(e) => setInsertData(e.target.value)}
                         placeholder="Enter Data for Insert"
                         style={{ width: '300px' }}
                     />
-                    <button className='btn btn-primary mb-2' onClick={handleInsertAfter}>Insert After</button>
-                    <button className='btn btn-primary mb-2' onClick={handleInsertBefore}>Insert Before</button>
+                    <button className='btn btn-primary mb-2 mx-2' onClick={handleInsertAfter}>Insert After</button>
+                    <button className='btn btn-primary mb-2 mx-2' onClick={handleInsertBefore}>Insert Before</button>
                 </div>
             </div>
-            <div style={{ height: '500px' }}>
+            <div style={{ height: '70vh' }}>
                 <ReactFlow
                     nodes={nodes}
                     edges={edges}
@@ -298,7 +309,7 @@ export default function DLL({ mode, showAlert }) {
                 >
                     <Background />
                     <Controls />
-                    <MiniMap />
+                    <MiniMap zoomable pannable />
                 </ReactFlow>
             </div>
         </div>
