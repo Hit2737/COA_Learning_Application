@@ -1,4 +1,4 @@
-.container {
+.nc-container {
     max-width: 100%;
 }
 
@@ -23,8 +23,8 @@
 }
 
 .box {
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,7 +39,7 @@
 }
 
 .digit-top {
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
     color: #333;
 }
@@ -65,8 +65,8 @@
     /* width: 100%; */
     /* max-width: 200px; Set a max-width to limit the size */
     padding: 8px;
-    background-color: #4CAF50;
-    border: 1px solid #ddd;
+    /* background-color: #4CAF50; */
+    border: 1px solid #4caf50;
     /* overflow-wrap: break-word; Allow long text to wrap */
     /* word-break: break-all; Break words if needed */
     white-space: normal;
