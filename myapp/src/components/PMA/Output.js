@@ -14,7 +14,7 @@ export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhe
     });
 
     useEffect(() => {
-        if ((() => {
+        if (((() => {
             if (!parseInt(coreCount) || (!parseInt(seqIns) && parseInt(seqIns) !== 0) || (!parseInt(parIns) && parseInt(parIns) !== 0) || !parseFloat(cpi) || !parseFloat(clkRate) || (!parseFloat(overhead) && parseFloat(overhead) !== 0)) {
                 return true;
             }
@@ -28,7 +28,7 @@ export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhe
                 return true;
             }
             return false;
-        })()) {
+        })())) {
             setOutput({
                 totalExeTime: 0,
                 tput: 0,
@@ -63,7 +63,7 @@ export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhe
             parExeTime: (pExeTime > 100000 || (pExeTime < 0.001 && pExeTime !== 0)) ? pExeTime.toExponential(2) : pExeTime.toFixed(2),
             totalSeqExeTime: (tSeqExeTime > 100000 || (tSeqExeTime < 0.001 && tSeqExeTime !== 0)) ? tSeqExeTime.toExponential(2) : tSeqExeTime.toFixed(2)
         })
-    }, [coreCount, seqIns, parIns, cpi, clkRate, overhead, showAlert]);
+    }, [coreCount, seqIns, parIns, cpi, clkRate, overhead]);
 
     return (
         <>

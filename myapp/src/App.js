@@ -11,15 +11,17 @@ import { Routes, Route } from 'react-router-dom'
 import Alert from './components/Alert';
 
 function App() {
+
+  document.body.style.transition = "all 0.2s linear"
   const [mode, setMode] = useState('light')
   const toggleMode = () => {
     if (mode === 'light') {
       setMode('dark')
-      document.body.style.backgroundColor = "#343a40"
+      document.body.style.backgroundColor = "rgb(38 42 55)"
       document.body.style.color = "white"
     } else {
       setMode('light')
-      document.body.style.backgroundColor = "#fff"
+      document.body.style.backgroundColor = "whitesmoke"
       document.body.style.color = "#000"
     }
   }
