@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import OutputLine from './OutputLine';
+import OutputLine from './OutputValue';
 
 export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhead, showAlert }) {
     const [output, setOutput] = useState({
