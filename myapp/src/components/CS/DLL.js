@@ -3,8 +3,8 @@ import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState,
 import 'reactflow/dist/style.css';
 import DLLNode, { NullNode, AnnotationNode } from './DLLNode';
 
-const addressMap = new WeakMap();
-let addressCounter = 1000;
+// const addressMap = new WeakMap();
+// let addressCounter = 1000;
 
 class DoublyLinkedListNode {
     constructor(addr, data) {
@@ -20,6 +20,7 @@ class DoublyLinkedList {
         this.head = null;
         this.tail = null;
         this.size = 0;
+        this.maxSize = 5;
     }
 
     addNode(addr, data) {
@@ -108,21 +109,23 @@ const nodeTypes = {
 
 const dll = new DoublyLinkedList();
 
+// Data Memory ---------------
 
 const rows = 7;
 const columns = 7;
 
-// Generate memory addresses and dummy data for the grid
 const memoryData = Array.from({ length: rows * columns }, (_, i) => ({
-    address: `0x${(i * 4).toString(16).padStart(4, '0').toUpperCase()}`, // Example address
-    data: Math.floor(Math.random() * 256) // Random data (0-255)
+    address: `0x${(i * 4).toString(16).padStart(4, '0').toUpperCase()}`,
+    data: Math.floor(Math.random() * 256)
 }));
 
-// Split data into rows for the 7x7 grid
 const memoryRows = [];
 for (let i = 0; i < memoryData.length; i += columns) {
     memoryRows.push(memoryData.slice(i, i + columns));
 }
+
+// -----------------------------
+
 
 export default function DLL({ mode, showAlert }) {
     const initialNodes = useMemo(() => ([
@@ -146,10 +149,10 @@ export default function DLL({ mode, showAlert }) {
     const [nodes, setNodes] = useNodesState(initialNodes);
     const [edges, setEdges] = useEdgesState([]);
     const [nodeDataToAdd, setNodeDataToAdd] = useState("");
-    const [nodeAddressToDelete, setNodeAddressToDelete] = useState("");
-    const [insertAddress, setInsertAddress] = useState("");
-    const [insertData, setInsertData] = useState("");
-    const [maxSize, setMaxSize] = useState(5);
+    // const [nodeAddressToDelete, setNodeAddressToDelete] = useState("");
+    // const [insertAddress, setInsertAddress] = useState("");
+    // const [insertData, setInsertData] = useState("");
+    // const [maxSize, setMaxSize] = useState(5);
     const [queryAdd, setQueryAdd] = useState("");
 
     const renderLinkedList = useCallback(() => {
@@ -223,63 +226,96 @@ export default function DLL({ mode, showAlert }) {
         renderLinkedList();
     }, [mode, renderLinkedList]);
 
-    const handleAddNode = () => {
-        if (dll.size >= maxSize) {
+    const handleQuery = () => {
+        if (dll.size >= dll.maxSize) {
             showAlert('Cache Full', 'danger');
             return;
         }
+        if (queryAdd === '') {
+            showAlert('Please Enter Memory Address to Query or Click on the Address in the Table below', 'danger');
+            return;
+        }
         if (nodeDataToAdd === '') showAlert('Node Initialized with Empty Data', 'warning');
-        dll.addNode(nodeDataToAdd);
+        dll.addNode(queryAdd, nodeDataToAdd);
         setNodeDataToAdd("");
         renderLinkedList();
     };
 
-    const handleDeleteNode = () => {
-        if (nodeAddressToDelete === '') {
-            showAlert('Please Enter Node Address to Delete', 'danger');
-            return;
-        }
-        dll.deleteNode(parseInt(nodeAddressToDelete), showAlert);
-        setNodeAddressToDelete("");
-        renderLinkedList();
-    };
+    // const handleDeleteNode = () => {
+    //     if (nodeAddressToDelete === '') {
+    //         showAlert('Please Enter Node Address to Delete', 'danger');
+    //         return;
+    //     }
+    //     dll.deleteNode(parseInt(nodeAddressToDelete), showAlert);
+    //     setNodeAddressToDelete("");
+    //     renderLinkedList();
+    // };
 
     const handleClearCache = () => {
         dll.head = null;
         dll.tail = null;
         dll.size = 0;
+        setQueryAdd("");
+        setNodeDataToAdd("");
         setNodes(initialNodes);
         setEdges([]);
     };
 
-    const handleInsertAfter = () => {
-        if (insertAddress === "") {
-            showAlert('Please Enter Insert Position Address', 'danger');
-            return;
-        }
-        dll.insertAfter(parseInt(insertAddress), insertData, showAlert);
-        setInsertAddress("");
-        setInsertData("");
-        renderLinkedList();
-    };
+    // const handleInsertAfter = () => {
+    //     if (insertAddress === "") {
+    //         showAlert('Please Enter Insert Position Address', 'danger');
+    //         return;
+    //     }
+    //     dll.insertAfter(parseInt(insertAddress), insertData, showAlert);
+    //     setInsertAddress("");
+    //     setInsertData("");
+    //     renderLinkedList();
+    // };
 
-    const handleInsertBefore = () => {
-        if (insertAddress === "") {
-            showAlert('Please Enter Insert Position Address', 'danger');
-            return;
-        }
-        dll.insertBefore(parseInt(insertAddress), insertData, showAlert);
-        setInsertAddress("");
-        setInsertData("");
-        renderLinkedList();
-    };
+    // const handleInsertBefore = () => {
+    //     if (insertAddress === "") {
+    //         showAlert('Please Enter Insert Position Address', 'danger');
+    //         return;
+    //     }
+    //     dll.insertBefore(parseInt(insertAddress), insertData, showAlert);
+    //     setInsertAddress("");
+    //     setInsertData("");
+    //     renderLinkedList();
+    // };
 
     const handleCopyAddress = (e) => {
         const address = e.target.innerText;
         setQueryAdd(address);
+        console.log(memoryData.find((cell) => cell.address === address)?.data)
         const valueAtAdd = memoryData.find((cell) => cell.address === address)?.data;
         setNodeDataToAdd(valueAtAdd);
+        showAlert(`Memory Address Copied: ${address}`, 'success');
     };
+
+    const setDllMaxSize = (size) => {
+        if (!isFinite(size) || size < 0) {
+            showAlert('Invalid Cache Size', 'danger');
+            return;
+        }
+        if (size === '') {
+            showAlert('Cache Size Cannot be Empty', 'danger');
+            return;
+        }
+        if (parseInt(size) < dll.size) {
+            showAlert('Cache Size Cannot be Less than Current Cache Size', 'danger');
+            return;
+        }
+        if (parseInt(size) === 0) {
+            showAlert('Cache Size Cannot be Zero', 'danger');
+            return;
+        }
+        if (parseInt(size) > 10) {
+            showAlert('L1 Cache Size Cannot be Greater than 10', 'danger');
+            return;
+        }
+        dll.maxSize = parseInt(size);
+        renderLinkedList();
+    }
 
 
 
@@ -293,8 +329,10 @@ export default function DLL({ mode, showAlert }) {
                             name='cacheSize'
                             className={`form-control my-2 mr-3 text-bg-${mode}`}
                             type="number"
-                            value={maxSize}
-                            onChange={(e) => setMaxSize(e.target.value)}
+                            value={dll.maxSize}
+                            min={1}
+                            max={10}
+                            onChange={(e) => setDllMaxSize(e.target.value)}
                             placeholder='Enter Cache Size'
                             style={{ width: '300px' }}
                         />
@@ -311,7 +349,7 @@ export default function DLL({ mode, showAlert }) {
                                 placeholder='Enter Memory Location to Access'
                                 style={{ width: '300px' }}
                             />
-                            <button className='btn btn-primary my-2 mx-2' onClick={handleAddNode}>Query</button>
+                            <button className='btn btn-primary my-2 mx-2' onClick={handleQuery}>Query</button>
                             <button className='btn btn-danger my-2' onClick={handleClearCache}>Clear Cache</button>
                         </div>
                     </div>
@@ -349,7 +387,6 @@ export default function DLL({ mode, showAlert }) {
                         nodes={nodes}
                         edges={edges}
                         nodeTypes={nodeTypes}
-                        fitView='always'
                     >
                         <Background variant='dots' size={2} />
                         <Controls />
