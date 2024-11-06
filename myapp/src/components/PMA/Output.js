@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import OutputLine from './OutputLine';
+import OutputLine from './OutputValue';
 
 export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhead, showAlert }) {
     const [output, setOutput] = useState({
@@ -15,6 +15,9 @@ export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhe
 
     useEffect(() => {
         if (((() => {
+            if (!isFinite(coreCount) || !isFinite(seqIns) || !isFinite(parIns) || !isFinite(cpi) || !isFinite(clkRate) || !isFinite(overhead)) {
+                return true;
+            }
             if (!parseInt(coreCount) || (!parseInt(seqIns) && parseInt(seqIns) !== 0) || (!parseInt(parIns) && parseInt(parIns) !== 0) || !parseFloat(cpi) || !parseFloat(clkRate) || (!parseFloat(overhead) && parseFloat(overhead) !== 0)) {
                 return true;
             }
