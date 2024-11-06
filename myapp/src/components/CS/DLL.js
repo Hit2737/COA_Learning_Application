@@ -2,7 +2,8 @@ import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState, MarkerType } from 'reactflow';
 import 'reactflow/dist/style.css';
 import DLLNode, { NullNode, AnnotationNode } from './DLLNode';
-
+import {FIFO} from './FIFO.js';
+import { render } from 'katex';
 // const addressMap = new WeakMap();
 // let addressCounter = 1000;
 
@@ -89,6 +90,14 @@ class DoublyLinkedList {
         if (current === this.tail) this.tail = current.prev;
         this.size--;
     }
+    removeHead() {
+        if (!dll.head) return;
+        const nodeToRemove = dll.head;
+        dll.head = dll.head.next;
+        if (dll.head) dll.head.prev = null;
+        if (nodeToRemove === dll.tail) dll.tail = null;
+        dll.size--;
+      }
 
     toNodeArray() {
         const nodes = [];
@@ -127,7 +136,7 @@ for (let i = 0; i < memoryData.length; i += columns) {
 // -----------------------------
 
 
-export default function DLL({ mode, showAlert }) {
+export default function DLL({ mode, showAlert, algo }) {
     const initialNodes = useMemo(() => ([
         {
             id: 'NULL',
@@ -229,7 +238,26 @@ export default function DLL({ mode, showAlert }) {
     const handleQuery = () => {
         if (dll.size >= dll.maxSize) {
             showAlert('Cache Full', 'danger');
+            switch (algo) {
+                case 'FiFo':
+                    if (dll.size === dll.maxSize) {
+                        dll.removeHead();
+                    }
+                    dll.addNode(queryAdd, nodeDataToAdd);
+                    break;
+                case 'LRU':
+                    break;
+                case 'LFU':
+                    break;
+                case 'LiFo':
+                    break;
+                default:
+                    break;
+                
+            }
+            renderLinkedList();
             return;
+
         }
         if (queryAdd === '') {
             showAlert('Please Enter Memory Address to Query or Click on the Address in the Table below', 'danger');
