@@ -1,15 +1,15 @@
-.container {
+.nc-container {
     max-width: 100%;
 }
 
-.conversion-container {
+.b2d-conversion-container {
     display: flex;
     justify-content: center;
     overflow-x: auto;
     width: 100%;
 }
 
-.conversion-row {
+.b2d-conversion-row {
     display: flex;
     align-items: center;
     white-space: nowrap; /* Prevents wrapping */
@@ -19,12 +19,12 @@
     display: flex;
     align-items: center;
     overflow-x: auto;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 .box {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,20 +39,21 @@
 }
 
 .digit-top {
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 1em;
+    /* font-weight: bold; */
     color: #333;
 }
 
 .digit-bottom {
-    font-size: 0.9em;
-    color: #666;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #333;
 }
 
 .symbol {
     font-size: 1.5em;
     font-weight: bold;
-    color: #9f9c9c;
+    /* color: #9f9c9c; */
 }
 
 .result-box {
@@ -65,8 +66,8 @@
     /* width: 100%; */
     /* max-width: 200px; Set a max-width to limit the size */
     padding: 8px;
-    background-color: #4CAF50;
-    border: 1px solid #ddd;
+    /* background-color: #4CAF50; */
+    border: 1px solid #4caf50;
     /* overflow-wrap: break-word; Allow long text to wrap */
     /* word-break: break-all; Break words if needed */
     white-space: normal;

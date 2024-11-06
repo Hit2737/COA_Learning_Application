@@ -4,7 +4,7 @@ import { useState } from 'react'
 import IeeeSinglePrecision from './NC/DecimalToIeeeSingle'
 
 
-export default function NumberConvertor() {
+export default function NumberConvertor({mode}) {
     const [number, setNumber] = useState("");
     const [fromBase, setFromBase] = useState(2);
     const [toBase, setToBase] = useState(16);
@@ -55,51 +55,53 @@ export default function NumberConvertor() {
     return (
         <>
             <h1 className="text-center my-3">Number System Converter</h1>
-            <div className="container-fluid">
-                <div className="row">
-                    <div className='col'>
-                        <DropDown id="convertFrom" setBase={setFromBase} base={fromBase} setValidInput={setValidInput} number={number} setDecimalValue={setDecimalValue}/>
-                    </div>
-                    <div className='col'>
-                        <input type="text" id="from" className="form-control" aria-label="Text input with dropdown button" placeholder="Enter valid number to convert to"  onChange={handleNumberChange}></input>
-                    </div>
-                    <div className='col'>
-                        <DropDown id="convertTo" setBase={setToBase} base={toBase} setValidInput={setValidInput} number={number}/>
-                    </div>
-                    <div className='col'>
-                    <input type="text" id="to" className="form-control" aria-label="Text input with dropdown button" placeholder="Result" value={result} readOnly/>
+            <div className="nc-container">
+                <div className="container-fluid mb-3 mt-3">
+                    <div className="row g-5">
+                        <div className='col'>
+                            <DropDown id="convertFrom" setBase={setFromBase} base={fromBase} setValidInput={setValidInput} number={number} setDecimalValue={setDecimalValue}/>
+                        </div>
+                        <div className='col'>
+                            <input type="text" id="from" className="form-control" aria-label="Text input with dropdown button" placeholder="Enter valid number to convert to"  onChange={handleNumberChange}></input>
+                        </div>
+                        <div className='col'>
+                            <DropDown id="convertTo" setBase={setToBase} base={toBase} setValidInput={setValidInput} number={number}/>
+                        </div>
+                        <div className='col'>
+                        <input type="text" id="to" className="form-control" aria-label="Text input with dropdown button" placeholder="Result" value={result} readOnly/>
 
+                        </div>
+                    </div>
+
+                    <div className="row">
+                        <div className="my-3">
+                            <button className="btn btn-primary" onClick={handleConversion}>Convert </button>
+                        </div>   
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="my-3">
-                        <button className="btn btn-secondary" onClick={handleConversion}>Convert </button>
-                    </div>   
+                <div className="container">
+                    <h3>Conversion Steps</h3>
+                    {(!validInput)? wrongInput():
+                        (<>{(fromBase===toBase)? noConversion():
+                            (<div className="form-group">
+                                <DisplaySteps 
+                                    number={number.toUpperCase()} 
+                                    mode={mode}
+                                    fromBase={fromBase} 
+                                    toBase={toBase} 
+                                    setResult={setResult} 
+                                    decimalValue={decimalValue} 
+                                    setDecimalValue={setDecimalValue}
+                                    setOutputFracVal={setOutputFracVal}
+                                    setOutputIntVal={setOutputIntVal}
+                                    outputFracVal={outputFracVal}
+                                    outputIntVal={outputIntVal}/>
+                            </div>)
+                        }</>)
+                    }
+
                 </div>
-            </div>
-
-            <div className="container mt-5">
-                <h2>Conversion Steps</h2>
-                {(!validInput)? wrongInput():
-                    (<>{(fromBase===toBase)? noConversion():
-                        (<div className="form-group">
-                            <label htmlFor="conversionSteps">Steps of Conversion:</label>
-                            <DisplaySteps 
-                                number={number.toUpperCase()} 
-                                fromBase={fromBase} 
-                                toBase={toBase} 
-                                setResult={setResult} 
-                                decimalValue={decimalValue} 
-                                setDecimalValue={setDecimalValue}
-                                setOutputFracVal={setOutputFracVal}
-                                setOutputIntVal={setOutputIntVal}
-                                outputFracVal={outputFracVal}
-                                outputIntVal={outputIntVal}/>
-                        </div>)
-                    }</>)
-                }
-
             </div>
             {/* <IeeeSinglePrecision /> */}
         </>)

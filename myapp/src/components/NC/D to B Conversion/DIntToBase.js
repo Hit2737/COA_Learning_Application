@@ -1,4 +1,3 @@
-import React from 'react';
 import "./DIntToBase.css";
 
 
@@ -49,9 +48,9 @@ function DIntToBase({ decimalValue, base ,setOutputIntVal}) {
 
     return (
         <div className='container nc-container align-items-center'>
-            <p className="text-center">We evaluate the integeral part step-by-step</p>
-            <div className="conversion-container d-flex align-items-center">
-                <table className="conversion-table">
+            <p className="text-center" style={{fontSize:"0.8em"}}>The Integer value is {Math.floor(decimalValue)}</p>
+            <div className="d-flex align-items-center">
+                <table className="d2b-conversion-table">
                     <thead>
                         <tr>
                             <th>Division by {base}</th>

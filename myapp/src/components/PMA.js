@@ -1,4 +1,4 @@
-import Graphs from './PMA/Graphs';
+import Graphs from './PMA/Graphs/Graphs';
 import InputValue from './InputValue';
 import React, { useState } from 'react';
 import Output from './PMA/Output';

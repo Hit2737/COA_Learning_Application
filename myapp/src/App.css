@@ -43,3 +43,8 @@
   color: #fff !important;
   background-color: RGBA(200, 200, 200, 0.7) !important;
 }
+
+body{
+  background-image:  url("https://www.transparenttextures.com/patterns/cubes.png");
+;
+}

@@ -28,17 +28,17 @@ function DFracToBase({ decimalValue, base ,setOutputFracVal}) {
     const conversionSteps = getConversionSteps();
 
     return (
-        <div className="container nc-container">
-            <p className="text-center">We evaluate the fractional part step-by-step</p>
-            <div className="conversion-container d-flex justify-content-center">
-                <table className="conversion-table">
+        <div className="container nc-container align-items-center">
+            <p className="text-center" style={{fontSize:"0.8em"}}>The fractional value is {(decimalValue-Math.floor(decimalValue)).toFixed(5)}</p>
+            <div className="d-flex justify-content-center">
+                <table className="d2b-conversion-table">
                     <thead>
                         <tr>
                             <th>Step</th>
                             <th>Multiplication</th>
                             <th></th>
-                            <th>Integral Part</th>
-                            <th>Fraction Remaining</th>
+                            <th><span style={{whiteSpace:"nowrap"}}>Integer Part</span></th>
+                            <th><span style={{whiteSpace:"nowrap"}}>Fraction Remaining</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,20 +49,10 @@ function DFracToBase({ decimalValue, base ,setOutputFracVal}) {
                         {conversionSteps.map((step, index) => (
                             <tr key={index}>
                                 <td>{step.step}</td>
-                                <td>{`${step.fraction} × ${base} = ${step.multiplied}`}</td>
+                                <td><span style={{whiteSpace:"nowrap"}}>{`${step.fraction} × ${base} = ${step.multiplied}`}</span></td>
                                 <td>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        fill="currentColor"
-                                        className="bi bi-arrow-right"
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"
-                                        />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-right" viewBox="0 0 16 16">
+                                        <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
                                     </svg>
                                 </td>
                                 <td className="integral-column">

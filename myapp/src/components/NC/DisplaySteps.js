@@ -12,28 +12,31 @@ export function isValidInput(input, base) {
 // number-->string of the number(string)
 // fromBase-->base of the number(int)
 // toBase-->base to convert to(int)
-export function DisplaySteps({ number, fromBase, toBase,decimalValue, setDecimalValue, outputIntVal, setOutputIntVal, outputFracVal, setOutputFracVal}) {
+export function DisplaySteps({mode, number, fromBase, toBase,decimalValue, setDecimalValue, outputIntVal, setOutputIntVal, outputFracVal, setOutputFracVal}) {
 
     if(!isValidInput(number,fromBase)){
         return <div className="alert alert-danger">Invalid Input</div>
     }
-    
+    const style={ minHeight: '500px',  overflowX:"auto" ,borderRadius:"12px", margin:"auto", border: '4px solid black',color: mode === 'dark' ? 'white' : 'black',
+        backgroundColor: mode === 'dark' ? '#8e9aaf' : 'white'}
     return (
-        <div className="border p-2 mb-5" style={{ minHeight: '500px',  overfowX:"auto" ,borderRadius:"12px", width:"90%", margin:"auto"}}>
+        <div className="border p-4" style={style}>
             {(fromBase===10)?null:(<BaseToDecimal 
                 base={fromBase}
                 number={number}
                 setDecimalValue={setDecimalValue}
+                mode={mode}
             />)}
             {(toBase===10)?null:(<DecimalToBase 
                 decimalValue={(fromBase===10)?number:decimalValue} 
                 toBase={toBase} 
                 setOutputIntVal={setOutputIntVal}
                 setOutputFracVal={setOutputFracVal}
+                mode={mode}
             />)}
-            <div className="container text-center">
-                <ShowResult number={number} fromBase={fromBase} toBase={toBase} decimalValue={decimalValue} outputInt={outputIntVal} outputFrac={outputFracVal} />
-            </div>
+            <ShowResult number={number} fromBase={fromBase} toBase={toBase} decimalValue={decimalValue} outputInt={outputIntVal} outputFrac={outputFracVal} mode={mode}/>
+            
         </div>
     );
 }
+

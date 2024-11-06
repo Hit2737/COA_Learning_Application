@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { ReactFlowProvider } from '@xyflow/react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+document.body.style.backgroundColor = "whitesmoke"
 root.render(
   <React.StrictMode>
     <ReactFlowProvider>
