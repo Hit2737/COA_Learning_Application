@@ -18,7 +18,7 @@ export function DisplaySteps({mode, number, fromBase, toBase,decimalValue, setDe
         return <div className="alert alert-danger">Invalid Input</div>
     }
     const style={ minHeight: '500px',  overflowX:"auto" ,borderRadius:"12px", margin:"auto", border: '4px solid black',color: mode === 'dark' ? 'white' : 'black',
-        backgroundColor: mode === 'dark' ? '#8e9aaf' : 'white'}
+        backgroundColor: mode === 'dark' ? 'rgb(45, 50, 69)' : 'white'}
     return (
         <div className="border p-4" style={style}>
             {(fromBase===10)?null:(<BaseToDecimal 

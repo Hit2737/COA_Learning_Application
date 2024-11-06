@@ -44,7 +44,7 @@ const BaseToDecimal = ({ number, base, setDecimalValue, mode }) => {
         noFracFlag=1;
     }
     return (
-        <div className="nc-container p-3 mb-5" style={{border: '2px solid' ,borderRadius: '8px',textAlign:"center",background:(mode==="dark")?"#4a4e69":"#F5F5F5"}}>
+        <div className="nc-container p-3 mb-5" style={{borderRadius: '8px',textAlign:"center",background:(mode==="dark")?"rgb(55 61 83)":"#F5F5F5"}}>
             <h4 className="text-center">Base-{base} to Decimal Conversion</h4>
             <div className="row justify-content-center py-3">
                 <div className="col-auto">

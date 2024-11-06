@@ -13,11 +13,21 @@ export default function NumberConvertor({mode}) {
     const [decimalValue, setDecimalValue] = useState("");
     const [outputIntVal, setOutputIntVal] = useState("");
     const [outputFracVal, setOutputFracVal] = useState("");
+    const [showSteps, setShowSteps] = useState(false);
+
 
     function handleNumberChange(e){
         setNumber(e.target.value)
+        setShowSteps(false);
         if(fromBase===10){
             setDecimalValue(e.target.value);
+        }
+        if(isValidInput(e.target.value,fromBase)){
+            setValidInput(true);
+        }
+        else{
+            setValidInput(false);
+            setResult("");
         }
         checkValidInput(e.target.value,fromBase);
     }
@@ -34,6 +44,7 @@ export default function NumberConvertor({mode}) {
         );
     }
     function handleConversion(){
+        setShowSteps(true);
         if(!validInput){
             setResult("");
         }
@@ -59,16 +70,33 @@ export default function NumberConvertor({mode}) {
                 <div className="container-fluid mb-3 mt-3">
                     <div className="row g-5">
                         <div className='col'>
-                            <DropDown id="convertFrom" setBase={setFromBase} base={fromBase} setValidInput={setValidInput} number={number} setDecimalValue={setDecimalValue}/>
+                            <DropDown 
+                                id="convertFrom" 
+                                setBase={setFromBase} 
+                                base={fromBase} 
+                                setValidInput={setValidInput} 
+                                number={number} 
+                                setDecimalValue={setDecimalValue} 
+                                setShowSteps={setShowSteps} 
+                                setResult={setResult}
+                            />
                         </div>
                         <div className='col'>
-                            <input type="text" id="from" className="form-control" aria-label="Text input with dropdown button" placeholder="Enter valid number to convert to"  onChange={handleNumberChange}></input>
+                            <input type="text" id="from" className="form-control" aria-label="Text input with dropdown button" placeholder="Enter valid number"  onChange={handleNumberChange}></input>
                         </div>
                         <div className='col'>
-                            <DropDown id="convertTo" setBase={setToBase} base={toBase} setValidInput={setValidInput} number={number}/>
+                            <DropDown 
+                                id="convertTo" 
+                                setBase={setToBase} 
+                                base={toBase} 
+                                setValidInput={setValidInput} 
+                                number={number} 
+                                setShowSteps={setShowSteps} 
+                                setResult={setResult}
+                            />
                         </div>
                         <div className='col'>
-                        <input type="text" id="to" className="form-control" aria-label="Text input with dropdown button" placeholder="Result" value={result} readOnly/>
+                        <input type="text" id="to" className="form-control" aria-label="Text input with dropdown button" placeholder="Result" value={((fromBase===toBase)&&validInput)?number:result} readOnly/>
 
                         </div>
                     </div>
@@ -82,9 +110,9 @@ export default function NumberConvertor({mode}) {
 
                 <div className="container">
                     <h3>Conversion Steps</h3>
-                    {(!validInput)? wrongInput():
+                    {(showSteps && !validInput)? wrongInput():
                         (<>{(fromBase===toBase)? noConversion():
-                            (<div className="form-group">
+                            (<div className={`form-group ${!showSteps ? 'd-none' : ''}`}>
                                 <DisplaySteps 
                                     number={number.toUpperCase()} 
                                     mode={mode}
