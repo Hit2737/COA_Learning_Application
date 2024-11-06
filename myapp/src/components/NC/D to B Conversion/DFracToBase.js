@@ -29,7 +29,11 @@ function DFracToBase({ decimalValue, base ,setOutputFracVal}) {
 
     return (
         <div className="container nc-container align-items-center">
-            <p className="text-center" style={{fontSize:"0.8em"}}>The fractional value is {(decimalValue-Math.floor(decimalValue)).toFixed(5)}</p>
+           <p className="text-center" style={{ fontSize: "0.8em" }}>
+            {(decimalFraction === 0) ? "There is no fractional value" 
+                : `The fractional value is ${(decimalValue - Math.floor(decimalValue)).toFixed(5)}`}
+            </p>
+
             <div className="d-flex justify-content-center">
                 <table className="d2b-conversion-table">
                     <thead>

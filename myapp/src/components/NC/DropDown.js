@@ -1,6 +1,6 @@
 // import React, {useState} from 'react'
 import { isValidInput } from './DisplaySteps';
-const DropDown = ({ id, setBase, base , setValidInput, number , setDecimalValue}) => {
+const DropDown = ({ id, setBase, base , setValidInput, number , setDecimalValue, setShowSteps,setResult}) => {
     const val = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const names = [
         "2 (Binary)", "3 (Ternary)", "4 (Quaternary)", "5 (Quinary)", 
@@ -9,15 +9,15 @@ const DropDown = ({ id, setBase, base , setValidInput, number , setDecimalValue}
     ];
     const handleChange = (e) => {
         setBase(Number(e.target.value));
+        setShowSteps(false);
+        setResult("");
         if(e.target.value==="10" && id==="convertFrom"){
             setDecimalValue(number);
         }
-        if(isValidInput(number,e.target.value)){
-            setValidInput(true);
+        if(id==="convertFrom"){
+            setValidInput(isValidInput(number,e.target.value));
         }
-        else{
-            setValidInput(false);
-        }
+
     };
 
     return (

@@ -10,9 +10,8 @@ function ShowResult({ number, fromBase, toBase, decimalValue, outputInt, outputF
     
     const style = {
         container: {
-            backgroundColor: (mode==='dark')?'#4a4e69':"#F5F5F5",
+            backgroundColor: (mode==='dark')?'rgb(55 61 83)':"#F5F5F5",
             borderRadius: '8px',
-            border: '2px solid',
             textAlign: 'center',
         },
         resultText: {
