@@ -15,6 +15,7 @@ class DoublyLinkedListNode {
     }
 }
 
+const CacheMem = {};
 class DoublyLinkedList {
     constructor() {
         this.head = null;
@@ -34,6 +35,7 @@ class DoublyLinkedList {
             this.tail = newNode;
         }
         this.size++;
+        CacheMem[addr] = data;
     }
 
     insertAfter(addr, data, address, showAlert) {
@@ -53,6 +55,7 @@ class DoublyLinkedList {
         current.next = newNode;
         if (current === this.tail) this.tail = newNode;
         this.size++;
+        CacheMem[addr] = data;
     }
 
     insertBefore(addr, data, address, showAlert) {
@@ -72,6 +75,7 @@ class DoublyLinkedList {
         current.prev = newNode;
         if (current === this.head) this.head = newNode;
         this.size++;
+        CacheMem[addr] = data;
     }
 
     deleteNode(addr, showAlert) {
@@ -88,6 +92,7 @@ class DoublyLinkedList {
         if (current === this.head) this.head = current.next;
         if (current === this.tail) this.tail = current.prev;
         this.size--;
+        delete CacheMem[addr];
     }
 
     toNodeArray() {
