@@ -1,10 +1,11 @@
-.conversion-table {
+.d2b-conversion-table {
     width: 200%;
     border-collapse: separate;
+    font-size:0.8em;
     border-spacing: 0;
     background-color: #f9f9f9;
     border-radius: 8px;
-    overflow: hidden;
+    /* overflow: hidden; */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .nc-container {
@@ -13,54 +14,54 @@
     align-items: center;
     /* height: 200vh; */
 }
-.conversion-table thead {
-    background-color: #4CAF50;
-    color: white;
+.d2b-conversion-table thead {
+    background-color: #8e9aaf;
+    /* color: white; */
 }
 
-.conversion-table th, .conversion-table td {
+.d2b-conversion-table th, .d2b-conversion-table td {
     padding: 12px 16px;
     text-align: center;
     font-weight: 500;
     color: #333;
 }
 
-.conversion-table th {
+.d2b-conversion-table th {
     font-size: 1em;
 }
 
-.conversion-table tbody tr:nth-child(odd) {
+.d2b-conversion-table tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
 }
 
-.conversion-table tbody tr:nth-child(even) {
+.d2b-conversion-table tbody tr:nth-child(even) {
     background-color: #ffffff;
 }
 
-.conversion-table tbody tr:hover {
+.d2b-conversion-table tbody tr:hover {
 
     background-color: #d1e7dd;
 }
 
 /* Column hover effect for remainder column */
-.conversion-table tbody tr:hover .remainder {
+.d2b-conversion-table tbody tr:hover .remainder {
     background-color: #F7C5CC; /* Highlight color for the remainder column */
     color: #333; /* Text color */
     transition: background-color 0.3s ease;
 }
 
-.conversion-table td {
+.d2b-conversion-table td {
     border-top: 1px solid #ddd;
     font-size: 0.95em;
 }
 
-.conversion-table th:first-child,
-.conversion-table td:first-child {
+.d2b-conversion-table th:first-child,
+.d2b-conversion-table td:first-child {
     border-top-left-radius: 8px;
 }
 
-.conversion-table th:last-child,
-.conversion-table td:last-child {
+.d2b-conversion-table th:last-child,
+.d2b-conversion-table td:last-child {
     border-top-right-radius: 8px;
 }
 
@@ -70,7 +71,7 @@
     animation: fadeIn 0.5s ease-in-out;
 }
 
-.conversion-table tbody tr:hover .integral-column {
+.d2b-conversion-table tbody tr:hover .integral-column {
     background-color: #eae1ab;
 }
 
@@ -84,8 +85,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     background-color: #df5762;
     color: #fff;
     font-weight: bold;
@@ -93,6 +94,10 @@
     font-size: 0.9em;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
     margin: auto;
+}
+.remainder-circle:hover {
+    /* background-color: #c94c52; */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 .deci {
     transition: box-shadow 0.3s ease;

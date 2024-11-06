@@ -1,6 +1,7 @@
 import React from 'react';
 import './BaseToDecimal.css';
-
+import { BlockMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
 //number-->string of the number(string)
 //base-->base of the number(int)
 //return-->decimal value of the number(int/float)
@@ -31,7 +32,7 @@ function findDecimalValue(number, base) {
 }
 
 
-const BaseToDecimal = ({ number, base, setDecimalValue }) => {
+const BaseToDecimal = ({ number, base, setDecimalValue, mode }) => {
     const decimalValue = findDecimalValue(number, base);
     let noFracFlag=0;
     setDecimalValue(decimalValue.toString());
@@ -43,21 +44,21 @@ const BaseToDecimal = ({ number, base, setDecimalValue }) => {
         noFracFlag=1;
     }
     return (
-        <div className="container mt-4">
-            <h3 className="text-center mb-5">Base-{base} to Base-10(Decimal) Conversion</h3>
-            <div className="row justify-content-center">
+        <div className="nc-container p-3 mb-5" style={{border: '2px solid' ,borderRadius: '8px',textAlign:"center",background:(mode==="dark")?"#4a4e69":"#F5F5F5"}}>
+            <h4 className="text-center">Base-{base} to Decimal Conversion</h4>
+            <div className="row justify-content-center py-3">
                 <div className="col-auto">
-                    <div className="conversion-container mb-2">
-                        <div className="conversion-row d-flex align-items-center">
-                            <div className="scrollable-row d-flex align-items-center mx-2">
+                    <div className="b2d-conversion-container">
+                        <div className="b2d-conversion-row d-flex align-items-center">
+                            <div className="scrollable-row d-flex align-items-center">
                                 {integerPart.map((digit, index) => (
-                                    <div key={index} className="box mx-1">
+                                    <div key={index} className="box mx-2 my-1">
                                         <span className="digit-top">{digit}</span>
                                     </div>
                                 ))}
                                 {noFracFlag===1?null:<span className="dot mx-2">.</span>}
                                 {fractionPart.map((digit, index) => (
-                                    <div key={index} className="box mx-1">
+                                    <div key={index} className="box mx-2 my-1">
                                         <span className="digit-top">{digit}</span>
                                     </div>
                                 ))}
@@ -66,21 +67,21 @@ const BaseToDecimal = ({ number, base, setDecimalValue }) => {
                     </div>
 
                     {/* Multiplication Symbol */}
-                    <div className="symbol text-center mx-auto mb-2">×</div>
+                    <div className="symbol text-center ">×</div>
 
                     {/* Bottom Row: Powers of Base */}
-                    <div className="conversion-container">
-                        <div className="conversion-row d-flex align-items-center">
-                            <div className="scrollable-row d-flex align-items-center mx-2">
+                    <div className="b2d-conversion-container">
+                        <div className="b2d-conversion-row d-flex align-items-center" >
+                            <div className="scrollable-row d-flex align-items-center" >
                                 {integerPart.map((_, index) => (
-                                    <div key={index} className="box mx-1">
-                                        <span className="digit-bottom">{`${base}^${integerPart.length - index - 1}`}</span>
+                                    <div key={index} className="box mx-2 my-1">
+                                        <span className="digit-bottom my-3"><BlockMath math={`${base}^{${integerPart.length - index - 1}}`}/></span>
                                     </div>
                                 ))}
                                 {noFracFlag===1?null:<span className="dot mx-2">.</span>}
                                 {fractionPart.map((_, index) => (
-                                    <div key={index} className="box mx-1">
-                                        <span className="digit-bottom">{`${base}^-${index + 1}`}</span>
+                                    <div key={index} className="box mx-2 my-1">
+                                        <span className="digit-bottom my-3"><BlockMath math={`${base}^{-${index + 1}}`} /> </span>
                                     </div>
                                 ))}
                             </div>
@@ -89,7 +90,7 @@ const BaseToDecimal = ({ number, base, setDecimalValue }) => {
                 </div>
                 <div className='col-auto d-flex align-items-center'>
                     <div className="symbol mx-2">=</div>
-                    <div className="result-box mx-2">
+                    <div className="result-box mx-2" style={{backgroundColor:"white" ,color:"black"}}>
                         <span className="result">{decimalValue}</span>
                     </div>
                 </div>
@@ -99,5 +100,3 @@ const BaseToDecimal = ({ number, base, setDecimalValue }) => {
 };
 
 export default BaseToDecimal;
-
-

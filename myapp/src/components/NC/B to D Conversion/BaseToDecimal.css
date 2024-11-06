@@ -2,14 +2,14 @@
     max-width: 100%;
 }
 
-.conversion-container {
+.b2d-conversion-container {
     display: flex;
     justify-content: center;
     overflow-x: auto;
     width: 100%;
 }
 
-.conversion-row {
+.b2d-conversion-row {
     display: flex;
     align-items: center;
     white-space: nowrap; /* Prevents wrapping */
@@ -19,12 +19,12 @@
     display: flex;
     align-items: center;
     overflow-x: auto;
-    white-space: nowrap;
+    /* white-space: nowrap; */
 }
 
 .box {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,19 +40,20 @@
 
 .digit-top {
     font-size: 1em;
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #333;
 }
 
 .digit-bottom {
-    font-size: 0.9em;
-    color: #666;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #333;
 }
 
 .symbol {
     font-size: 1.5em;
     font-weight: bold;
-    color: #9f9c9c;
+    /* color: #9f9c9c; */
 }
 
 .result-box {
