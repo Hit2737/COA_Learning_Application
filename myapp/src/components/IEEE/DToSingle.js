@@ -46,7 +46,7 @@ const convertToIEEE754 = (number) => {
     }
 
     // Round the normalized number to prevent floating-point errors
-    steps.normalizedNumber = roundTo(tempPower, 6);
+    steps.normalizedNumber = roundTo(tempPower, 10);
     steps.unbiasedExponent = exponent;
 
     // Calculate biased exponent
@@ -56,10 +56,12 @@ const convertToIEEE754 = (number) => {
 
     // Calculate mantissa, rounded to avoid floating-point issues
     const mantissa = steps.normalizedNumber - 1;
-    steps.mantissa = roundTo(mantissa, 6);
+    steps.mantissa = roundTo(mantissa, 10);
 
     // Convert mantissa to binary representation
     let mantissaBinary = steps.mantissa.toString(2).split(".")[1] || "";
+    console.log(steps.mantissa.toString(2));
+    console.log(mantissaBinary);
     mantissaBinary = mantissaBinary.padEnd(23, "0").slice(0, 23);
     steps.mantissaBinary = mantissaBinary;
 
