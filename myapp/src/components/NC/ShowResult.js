@@ -40,13 +40,13 @@ function ShowResult({ number, fromBase, toBase, decimalValue, outputInt, outputF
     return (
         <div className="nc-container p-3 mb-3" style={style.container}>
             <h4 className="">Summary</h4>
-            <p className="p-3" style={{fontSize:"1em"}}>
-            <div style={style.resultText}>
-                Base-{fromBase} (<span className="deci" style={style.numberBox}>{number.toUpperCase()}</span>)   
-                    {(c1 || c3)?(<>➔  Decimal (<span className="deci" style={style.numberBox}>{decimalValue}</span>)    </>):null}
-                {(c1 || c2)?(<>➔   Base-{toBase} ({displayResult(outputInt,outputFrac,style)})</>):null}
+            <div className="p-3" style={{fontSize:"1em"}}>
+                <div style={style.resultText}>
+                    Base-{fromBase} (<span className="deci" style={style.numberBox}>{number.toUpperCase()}</span>)   
+                        {(c1 || c3)?(<>➔  Decimal (<span className="deci" style={style.numberBox}>{decimalValue}</span>)    </>):null}
+                    {(c1 || c2)?(<>➔   Base-{toBase} ({displayResult(outputInt,outputFrac,style)})</>):null}
+                </div>
             </div>
-            </p>
         </div>
     );
 }
@@ -68,7 +68,7 @@ function displayResult(outputInt, outputFrac,style) {
 function CircleDisplay(number,backcolor,color) {
     return (
         number.split('').map((digit, index) => (
-            <span key={index} className="remainder-circle mx-1" style={{backgroundColor:backcolor, color:color, fontSize:"0.8em",width:"25px",height:"25px"}}>
+            <span key={index} className="remainder-circle mx-1" style={{backgroundColor:backcolor, color:color, fontSize:"0.8em",width:"20px",height:"20px"}}>
                 {digit}
             </span>
         ))
