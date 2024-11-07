@@ -48,3 +48,8 @@ body{
   background-image:  url("https://www.transparenttextures.com/patterns/cubes.png");
 ;
 }
+
+/* IEEE.js used in expand and collapse showSteps */
+.collapse {
+  transition: height 0.35s ease;
+}
