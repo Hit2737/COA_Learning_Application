@@ -1,4 +1,4 @@
-const convertToIEEE754 = (number) => {
+const DToSingle = (number) => {
     const steps = {};
     // Handle special cases
     if (number === 0) {
@@ -75,4 +75,4 @@ const roundTo = (value, decimals) => {
     return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 };
 
-export default convertToIEEE754;
+export default DToSingle;

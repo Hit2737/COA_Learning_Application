@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
-import convertToIEEE754 from './DToSingle';
+import DToSingle from './DToSingle';
+import DToDouble from './DToDouble';
 function binaryToDecimal(binaryStr) {
     let [integerPart, fractionalPart] = binaryStr.split('.');
     let decimalInteger = parseInt(integerPart, 2);
@@ -15,7 +16,7 @@ function binaryToDecimal(binaryStr) {
     let decimalResult = decimalInteger + decimalFraction;
     return decimalResult;
 }
-const ResultDisplay = ({number,setNumber,setSteps,steps}) => {
+const ResultDisplay = ({number,setNumber,setSteps,steps,fpType}) => {
     const signBit = (steps.sign===0)? 1:-1;
     const exponent = 2**parseInt(steps.unbiasedExponent);
     const normalisedNumber = 1+binaryToDecimal("0."+steps.mantissaBinary);
@@ -31,7 +32,13 @@ const ResultDisplay = ({number,setNumber,setSteps,steps}) => {
         }
         else{
             console.log("Defined Guys",e.target.value);
-            setSteps(convertToIEEE754(parseFloat(e.target.value)));
+            console.log("FP Type",fpType);
+            if(fpType==="FP32"){
+                setSteps(DToSingle(parseFloat(e.target.value)));
+            }
+            else{
+                setSteps(DToDouble(parseFloat(e.target.value)));
+            }
         }
     }
     const style={

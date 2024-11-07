@@ -9,7 +9,7 @@ export default function IEEE({ mode, showAlert }) {
     const [showSteps, setShowSteps] = useState(false);
 
     const toggleExpand=()=> setShowSteps(!showSteps);
-    
+    console.log("Rendering")
     function handleClick(e) {
         setFpType(e.target.id);
     }
@@ -33,6 +33,7 @@ export default function IEEE({ mode, showAlert }) {
                 mode={mode} 
                 showAlert={showAlert} 
                 number={number}
+                fpType={fpType}
                 setNumber={setNumber}
                 setSteps={setSteps}
                 steps={steps}
