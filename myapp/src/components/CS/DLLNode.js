@@ -31,7 +31,7 @@ export function AnnotationNode({ data }) {
     );
 }
 
-const DLLNode = ({ data = { val: '0x00', addr: '0x00', prev: '0x00', next: '0x00' } }) => {
+const DLLNode = ({ data = { val: '0x00', addr: '0x00', freq: 1, prev: '0x00', next: '0x00', algo: 'LRU' } }) => {
     return (
         <div className='text-center border' style={{ padding: 10, borderRadius: 5, width: 150 }}>
             <Handle type="source" id='prev-out' position={Position.Left} style={{ top: '110px', background: '#fff' }} />
@@ -39,6 +39,7 @@ const DLLNode = ({ data = { val: '0x00', addr: '0x00', prev: '0x00', next: '0x00
             <div className='border-bottom my-2'>Addr: {data.addr}</div>
             <div className='container my-3'>
                 <p>Data: {data.val}</p>
+                {(data.algo === 'LFU') && <p>Freq: {data.freq}</p>}
                 <p>Prev: {data.prev}</p>
                 <p>Next: {data.next}</p>
             </div>

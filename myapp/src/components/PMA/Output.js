@@ -66,7 +66,7 @@ export default function Output({ coreCount, seqIns, parIns, cpi, clkRate, overhe
             parExeTime: (pExeTime > 100000 || (pExeTime < 0.001 && pExeTime !== 0)) ? pExeTime.toExponential(2) : pExeTime.toFixed(2),
             totalSeqExeTime: (tSeqExeTime > 100000 || (tSeqExeTime < 0.001 && tSeqExeTime !== 0)) ? tSeqExeTime.toExponential(2) : tSeqExeTime.toFixed(2)
         })
-    }, [coreCount, seqIns, parIns, cpi, clkRate, overhead]);
+    }, [coreCount, seqIns, parIns, cpi, clkRate, overhead, showAlert]);
 
     return (
         <>
