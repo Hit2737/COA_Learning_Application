@@ -2,155 +2,8 @@ import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState, MarkerType } from 'reactflow';
 import 'reactflow/dist/style.css';
 import DLLNode, { NullNode, AnnotationNode } from './DLLNode';
+import { DoublyLinkedList, CacheMem, ClearCache } from './DLLClass'
 
-class DoublyLinkedListNode {
-    constructor(addr, data) {
-        this.data = data;
-        this.prev = null;
-        this.next = null;
-        this.addr = addr;
-        this.freq = 1;
-    }
-}
-
-const CacheMem = {};
-class DoublyLinkedList {
-    constructor() {
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
-        this.maxSize = 5;
-    }
-
-    addNode(addr, data) {
-        const newNode = new DoublyLinkedListNode(addr, data);
-        if (!this.head) {
-            this.head = newNode;
-            this.tail = newNode;
-        } else {
-            newNode.prev = this.tail;
-            this.tail.next = newNode;
-            this.tail = newNode;
-        }
-        this.size++;
-        CacheMem[addr] = { data: data, freq: 1 };
-    }
-
-    insertAfter(addr, data, address, showAlert) {
-        let current = this.head;
-        while (current && current.addr !== address) {
-            current = current.next;
-        }
-        if (!current) {
-            showAlert(`Node with Address ${address} Not Found`, 'danger');
-            return;
-        }
-        if (data === '') showAlert('Node Initialized with Empty Data', 'warning');
-        const newNode = new DoublyLinkedListNode(addr, data);
-        newNode.next = current.next;
-        newNode.prev = current;
-        if (current.next) current.next.prev = newNode;
-        current.next = newNode;
-        if (current === this.tail) this.tail = newNode;
-        this.size++;
-        CacheMem[addr] = { data: data, freq: 1 };
-    }
-
-    insertBefore(addr, data, address, showAlert) {
-        let current = this.head;
-        while (current && current.addr !== address) {
-            current = current.next;
-        }
-        if (!current) {
-            showAlert(`Node with Address ${address} Not Found`, 'danger');
-            return;
-        }
-        if (data === '') showAlert('Node Initialized with Empty Data', 'warning');
-        const newNode = new DoublyLinkedListNode(addr, data);
-        newNode.prev = current.prev;
-        newNode.next = current;
-        if (current.prev) current.prev.next = newNode;
-        current.prev = newNode;
-        if (current === this.head) this.head = newNode;
-        this.size++;
-        CacheMem[addr] = { data: data, freq: 1 };
-    }
-
-    deleteNode(addr, showAlert) {
-        let current = this.head;
-        while (current && current.addr !== addr) {
-            current = current.next;
-        }
-        if (!current) {
-            showAlert(`Node with Address ${addr} Not Found`, 'danger');
-            return;
-        }
-        if (current.prev) current.prev.next = current.next;
-        if (current.next) current.next.prev = current.prev;
-        if (current === this.head) this.head = current.next;
-        if (current === this.tail) this.tail = current.prev;
-        this.size--;
-        delete CacheMem[addr];
-    }
-    removeHead() {
-        if (!dll.head) {
-            return;
-        }
-        delete CacheMem[dll.head.addr];
-        const nodeToRemove = dll.head;
-        dll.head = dll.head.next;
-        if (dll.head) dll.head.prev = null;
-        if (nodeToRemove === dll.tail) dll.tail = null;
-        dll.size--;
-    }
-
-    removeTail() {
-        if (!dll.tail) {
-            return;
-        }
-        delete CacheMem[dll.tail.addr];
-        const nodeToRemove = dll.tail;
-        dll.tail = dll.tail.prev;
-        if (dll.tail) dll.tail.next = null;
-        if (nodeToRemove === dll.head) dll.head = null;
-        dll.size--;
-    }
-
-    tempRemoveNode(addr) {
-        let nodeToRemove = this.head;
-        while (nodeToRemove && nodeToRemove.addr !== addr) {
-            nodeToRemove = nodeToRemove.next;
-        }
-        if (!nodeToRemove) return;
-        this.deleteNode(addr);
-    }
-
-    insertbasedonfreq(addr, data) {
-        if (!CacheMem[addr]) {
-            CacheMem[addr] = { data: data, freq: 1 };
-        }
-        let current = this.head;
-        while (current && CacheMem[current.addr]['freq'] >= CacheMem[addr]['freq']) {
-            current = current.next;
-        }
-        if (!current) {
-            this.addNode(addr, data);
-            return;
-        }
-        let targetAddr = current.addr;
-        this.insertBefore(addr, data, targetAddr);
-    }
-
-    toNodeArray() {
-        const nodes = [];
-        let current = this.head;
-        while (current) {
-            nodes.push(current);
-            current = current.next;
-        }
-        return nodes;
-    }
-}
 
 const nodeTypes = {
     dllnode: DLLNode,
@@ -160,10 +13,8 @@ const nodeTypes = {
 
 const dll = new DoublyLinkedList();
 
-// Data Memory ---------------
-
 const rows = 7;
-const columns = 7;
+const columns = 4;
 
 const memoryData = Array.from({ length: rows * columns }, (_, i) => ({
     address: `0x${(i * 4).toString(16).padStart(4, '0').toUpperCase()}`,
@@ -174,8 +25,6 @@ const memoryRows = [];
 for (let i = 0; i < memoryData.length; i += columns) {
     memoryRows.push(memoryData.slice(i, i + columns));
 }
-
-// -----------------------------
 
 
 export default function DLL({ mode, showAlert, algo }) {
@@ -196,15 +45,21 @@ export default function DLL({ mode, showAlert, algo }) {
             data: { label: 'Head', arrowStyle: { top: 5, left: 0 } }
         }
     ]), [mode]);
-
     const [nodes, setNodes] = useNodesState(initialNodes);
     const [edges, setEdges] = useEdgesState([]);
     const [nodeDataToAdd, setNodeDataToAdd] = useState("");
-    // const [nodeAddressToDelete, setNodeAddressToDelete] = useState("");
-    // const [insertAddress, setInsertAddress] = useState("");
-    // const [insertData, setInsertData] = useState("");
-    // const [maxSize, setMaxSize] = useState(5);
     const [queryAdd, setQueryAdd] = useState("");
+
+    const defaultEdgeOptions = useMemo(() => ({
+        type: 'smoothstep',
+        markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 20,
+            height: 20,
+            color: mode === 'light' ? 'gray' : '#fff',
+        },
+        style: { stroke: mode === 'light' ? 'gray' : '#fff', strokeWidth: 1.1 },
+    }), [mode]);
 
     const renderLinkedList = useCallback(() => {
         const dllNodes = dll.toNodeArray();
@@ -217,24 +72,14 @@ export default function DLL({ mode, showAlert, algo }) {
                 label: `Node ${index + 1}`,
                 addr: node.addr.toString(),
                 val: node.data,
-                freq: node.freq,
+                freq: CacheMem[node.addr] ? CacheMem[node.addr].freq : 1,
                 prev: node.prev ? node.prev.addr.toString() : 'NULL',
                 next: node.next ? node.next.addr.toString() : 'NULL',
+                algo: algo
             }
         }));
 
         setNodes([...initialNodes, ...newNodes]);
-
-        const defaultEdgeOptions = {
-            type: 'smoothstep',
-            markerEnd: {
-                type: MarkerType.ArrowClosed,
-                width: 20,
-                height: 20,
-                color: mode === 'light' ? 'gray' : '#fff',
-            },
-            style: { stroke: mode === 'light' ? 'gray' : '#fff', strokeWidth: 1.1 },
-        };
 
         const newEdges = dllNodes.flatMap((node) => [
             node.next && {
@@ -272,7 +117,8 @@ export default function DLL({ mode, showAlert, algo }) {
         ].filter(Boolean));
 
         setEdges(newEdges);
-    }, [setNodes, setEdges, mode, initialNodes]);
+    }, [setNodes, setEdges, mode, initialNodes, algo, defaultEdgeOptions]); // Include defaultEdgeOptions as a dependency
+
 
     useEffect(() => {
         renderLinkedList();
@@ -283,7 +129,10 @@ export default function DLL({ mode, showAlert, algo }) {
             showAlert('Please Enter Memory Address to Query or Click on the Address in the Table below', 'danger');
             return;
         }
-        if (nodeDataToAdd === '') showAlert('Node can\'t be Initialized with Empty Data', 'warning');
+        if (nodeDataToAdd === '' || nodeDataToAdd === undefined) {
+            showAlert('Memory Address Not Found, Try to Click on the Addresses in the Table below', 'danger');
+            return;
+        }
         switch (algo) {
             case 'FiFo':
                 if (CacheMem[queryAdd]) {
@@ -294,6 +143,8 @@ export default function DLL({ mode, showAlert, algo }) {
                     showAlert('Cache Miss! Using FiFo Replacement Policy', 'warning');
                     dll.removeHead();
                 }
+                dll.addNode(queryAdd, nodeDataToAdd);
+                renderLinkedList();
                 break;
             case 'LRU':
                 if (CacheMem[queryAdd]) {
@@ -308,14 +159,14 @@ export default function DLL({ mode, showAlert, algo }) {
                     dll.removeHead()
                     showAlert('Cache Miss! Using LRU Replacement Policy', 'warning');
                 }
+                dll.addNode(queryAdd, nodeDataToAdd);
+                renderLinkedList();
                 break;
             case 'LFU':
-                if (CacheMem[queryAdd]) {
+                if (CacheMem[queryAdd] !== undefined) {
                     showAlert('Cache Hit', 'success');
-                    console.log(CacheMem[queryAdd].freq);
-                    CacheMem[queryAdd].freq = CacheMem[queryAdd].freq + 1;
                     dll.tempRemoveNode(queryAdd);
-                    dll.insertbasedonfreq(queryAdd, memoryData.find((cell) => cell.address === queryAdd)?.data);
+                    dll.insertbasedonfreq(queryAdd, CacheMem[queryAdd].data);
                     renderLinkedList();
                     return;
                 }
@@ -325,7 +176,7 @@ export default function DLL({ mode, showAlert, algo }) {
                 }
                 dll.insertbasedonfreq(queryAdd, nodeDataToAdd);
                 renderLinkedList();
-                return;
+                break;
             case 'LiFo':
                 if (CacheMem[queryAdd]) {
                     showAlert('Cache Hit', 'success');
@@ -335,60 +186,30 @@ export default function DLL({ mode, showAlert, algo }) {
                     dll.removeTail();
                     showAlert('Cache Miss! Using LiFo Replacement Policy', 'warning');
                 }
+                dll.addNode(queryAdd, nodeDataToAdd);
+                renderLinkedList();
                 break;
             default:
                 break;
         }
-        dll.addNode(queryAdd, nodeDataToAdd);
-        renderLinkedList();
-    };
 
-    // const handleDeleteNode = () => {
-    //     if (nodeAddressToDelete === '') {
-    //         showAlert('Please Enter Node Address to Delete', 'danger');
-    //         return;
-    //     }
-    //     dll.deleteNode(parseInt(nodeAddressToDelete), showAlert);
-    //     setNodeAddressToDelete("");
-    //     renderLinkedList();
-    // };
+    };
 
     const handleClearCache = () => {
         dll.head = null;
         dll.tail = null;
         dll.size = 0;
+        ClearCache();
         setQueryAdd("");
         setNodeDataToAdd("");
         setNodes(initialNodes);
         setEdges([]);
     };
 
-    // const handleInsertAfter = () => {
-    //     if (insertAddress === "") {
-    //         showAlert('Please Enter Insert Position Address', 'danger');
-    //         return;
-    //     }
-    //     dll.insertAfter(parseInt(insertAddress), insertData, showAlert);
-    //     setInsertAddress("");
-    //     setInsertData("");
-    //     renderLinkedList();
-    // };
-
-    // const handleInsertBefore = () => {
-    //     if (insertAddress === "") {
-    //         showAlert('Please Enter Insert Position Address', 'danger');
-    //         return;
-    //     }
-    //     dll.insertBefore(parseInt(insertAddress), insertData, showAlert);
-    //     setInsertAddress("");
-    //     setInsertData("");
-    //     renderLinkedList();
-    // };
 
     const handleCopyAddress = (e) => {
         const address = e.target.innerText;
         setQueryAdd(address);
-        console.log(memoryData.find((cell) => cell.address === address)?.data)
         const valueAtAdd = memoryData.find((cell) => cell.address === address)?.data;
         setNodeDataToAdd(valueAtAdd);
         showAlert(`Memory Address Copied: ${address}`, 'success');
@@ -419,10 +240,15 @@ export default function DLL({ mode, showAlert, algo }) {
         renderLinkedList();
     }
 
+    const handleQueryChange = (e) => {
+        setQueryAdd(e.target.value);
+        setNodeDataToAdd(memoryData.find((cell) => cell.address === e.target.value)?.data);
+    }
+
 
 
     return (
-        <div className="container border" style={{ borderRadius: '10px' }}>
+        <div className="container border" style={{ borderRadius: '10px', backgroundColor: mode === 'light' ? 'whitesmoke' : 'rgb(38 42 55)' }}>
             <div className="mt-4">
                 <div className="container d-flex align-items-center justify-content-start">
                     <div className="container">
@@ -447,7 +273,7 @@ export default function DLL({ mode, showAlert, algo }) {
                                 className={`form-control my-2 text-bg-${mode}`}
                                 type="text"
                                 value={queryAdd}
-                                onChange={(e) => setNodeDataToAdd(e.target.value)}
+                                onChange={handleQueryChange}
                                 placeholder='Enter Memory Location to Access'
                                 style={{ width: '300px' }}
                             />
@@ -457,45 +283,20 @@ export default function DLL({ mode, showAlert, algo }) {
                     </div>
                 </div>
             </div>
-            {/* <div className="mt-4">
-                <div className="container d-flex align-items-center justify-content-start">
-                    <input
-                        name='insertAddress'
-                        className={`form-control my-2 mx-2 text-bg-${mode}`}
-                        type="text"
-                        value={insertAddress}
-                        onChange={(e) => setInsertAddress(e.target.value)}
-                        placeholder="Enter Insert Position Address"
-                        style={{ width: '300px' }}
-                    />
-                    <input
-                        name='insertData'
-                        className={`form-control my-2 mx-2 text-bg-${mode}`}
-                        type="text"
-                        value={insertData}
-                        onChange={(e) => setInsertData(e.target.value)}
-                        placeholder="Enter Data for Insert"
-                        style={{ width: '300px' }}
-                    />
-                </div>
-                <div className="container d-flex align-items-center justify-content-start">
-                    <button className='btn btn-primary my-2 mx-2' onClick={handleInsertAfter}>Insert After</button>
-                    <button className='btn btn-primary my-2 mx-2' onClick={handleInsertBefore}>Insert Before</button>
-                </div>
-            </div> */}
-            <div className="container">
-                <div className='container my-3' style={{ height: '70vh' }}>
+            <div className="container row">
+                <div className='container my-3 col-8' style={{ height: '70vh' }}>
                     <ReactFlow
                         nodes={nodes}
                         edges={edges}
                         nodeTypes={nodeTypes}
+                        defaultViewport={{ x: 0, y: 120, zoom: 0.75 }}
                     >
                         <Background variant='dots' size={2} />
                         <Controls />
                         <MiniMap zoomable pannable />
                     </ReactFlow>
                 </div>
-                <div className="container">
+                <div className="container col-4">
                     <h3 className="text-center my-3">Memory</h3>
                     <table className="table table-bordered text-center">
                         <tbody>
