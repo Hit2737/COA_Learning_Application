@@ -17,6 +17,9 @@ export default function ToolBox({ mode = 'light' }) {
                         <div className="col-md-4">
                             <Tool mode={mode} title="Cache Simulator" content="This tool will help you to simulate the cache memory" goto='cachesimulator' />
                         </div>
+                        <div className="col-md-4">
+                            <Tool mode={mode} title="IEEE floating Conversion" content="This tool will help you to convert decimal numbers to IEEE floating point precision" goto='ieee' />
+                        </div>
                     </div>
                 </div>
             </div>
