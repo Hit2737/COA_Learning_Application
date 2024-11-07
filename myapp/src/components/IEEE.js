@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import DecimalToIeeeSingle from './IEEE/DecimalToIeeeSingle';
+import DToSingleSteps from './IEEE/DToSingleSteps';
 import ResultDisplay from './IEEE/ResultDisplay';
 
 export default function IEEE({ mode, showAlert }) {
     const [fpType, setFpType] = useState('FP32');
-    const [number, setNumber] = useState();             //string
+    const [number, setNumber] = useState("");
     const [steps, setSteps] = useState({});
-    console.log("Inside the IEEE component");
+    const [showSteps, setShowSteps] = useState(false);
+
+    const toggleExpand=()=> setShowSteps(!showSteps);
+    
     function handleClick(e) {
         setFpType(e.target.id);
     }
@@ -32,15 +35,30 @@ export default function IEEE({ mode, showAlert }) {
                 number={number}
                 setNumber={setNumber}
                 setSteps={setSteps}
-            />
-            <DecimalToIeeeSingle 
-                mode={mode} 
-                showAlert={showAlert} 
-                number={number} 
-                setNumber={setNumber}
                 steps={steps}
-                setSteps={setSteps}
             />
+            <div className="container">
+                {/* Button to toggle expand/collapse */}
+                <button 
+                    className="btn btn-primary mb-3" 
+                    onClick={toggleExpand}
+                    aria-expanded={showSteps}
+                    aria-controls="collapseContent"
+                >
+                    {showSteps ? "Hide Steps" : "Show Steps"}
+                </button>
+
+                {/* Collapsible content with Bootstrap collapse class */}
+                <div className={`collapse ${showSteps ? 'show' : ''}`} id="collapseContent">
+                    <div className="card card-body" style={{backgroundColor:(mode==="dark")?"rgb(45,50,69)":"white"}}>
+                        <h3>Step-by-Step Conversion</h3>
+                        <DToSingleSteps 
+                            setNumber={setNumber}
+                            steps={steps}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
