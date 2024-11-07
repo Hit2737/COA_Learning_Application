@@ -13,10 +13,10 @@ export default function DecimalToBase({toBase, decimalValue, setOutputIntVal,set
                 <p className="text-center p-2" style={{fontSize:"15px"}}>We convert the integer part and fraction part of the decimal seperately.</p>
                 <div className="row">
                     <div className="col-6">
-                        <DIntToBase decimalValue={decimalValue} base={toBase} setOutputIntVal={setOutputIntVal}/>
+                        <DIntToBase mode={mode} decimalValue={decimalValue} base={toBase} setOutputIntVal={setOutputIntVal}/>
                     </div>
                     <div className="col-6">
-                        <DFracToBase base={toBase} decimalValue={decimalValue} setOutputFracVal={setOutputFracVal}/>
+                        <DFracToBase mode={mode} base={toBase} decimalValue={decimalValue} setOutputFracVal={setOutputFracVal}/>
                     </div>
                 </div>
             </div>)

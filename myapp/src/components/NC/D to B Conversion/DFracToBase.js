@@ -1,6 +1,6 @@
 import "./DIntToBase.css";
 
-function DFracToBase({ decimalValue, base ,setOutputFracVal}) {
+function DFracToBase({mode, decimalValue, base ,setOutputFracVal}) {
     let decimalFraction = decimalValue - Math.floor(decimalValue);
     let frac="";
     const getConversionSteps = () => {
@@ -36,7 +36,7 @@ function DFracToBase({ decimalValue, base ,setOutputFracVal}) {
 
             <div className="d-flex justify-content-center">
                 <table className="d2b-conversion-table">
-                    <thead>
+                    <thead style={{backgroundColor:mode==="dark"?"#4c5473":"silver"}}>
                         <tr>
                             <th>Step</th>
                             <th>Multiplication</th>

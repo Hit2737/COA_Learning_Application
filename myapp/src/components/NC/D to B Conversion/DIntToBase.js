@@ -3,7 +3,7 @@ import "./DIntToBase.css";
 
 //decimalValue-->decimal value of the number(string)
 //base-->base to convert to(int)
-function DIntToBase({ decimalValue, base ,setOutputIntVal}) {
+function DIntToBase({mode, decimalValue, base ,setOutputIntVal}) {
     const formatRemainder = (remainder) => {
         const baseDigit = remainder >= 10 ? String.fromCharCode(55 + remainder) : remainder; // A=10, B=11, etc.
         return `${baseDigit}`;
@@ -51,7 +51,7 @@ function DIntToBase({ decimalValue, base ,setOutputIntVal}) {
             <p className="text-center" style={{fontSize:"0.8em"}}>The Integer value is {Math.floor(decimalValue)}</p>
             <div className="d-flex align-items-center">
                 <table className="d2b-conversion-table">
-                    <thead>
+                    <thead style={{backgroundColor:mode==="dark"?"#4c5473":"silver"}}>
                         <tr>
                             <th>Division by {base}</th>
                             <th>Quotient</th>
