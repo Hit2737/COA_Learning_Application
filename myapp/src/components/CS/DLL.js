@@ -2,10 +2,6 @@ import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import ReactFlow, { Background, Controls, MiniMap, useNodesState, useEdgesState, MarkerType } from 'reactflow';
 import 'reactflow/dist/style.css';
 import DLLNode, { NullNode, AnnotationNode } from './DLLNode';
-import {FIFO} from './FIFO.js';
-import { render } from 'katex';
-// const addressMap = new WeakMap();
-// let addressCounter = 1000;
 
 class DoublyLinkedListNode {
     constructor(addr, data) {
@@ -13,6 +9,7 @@ class DoublyLinkedListNode {
         this.prev = null;
         this.next = null;
         this.addr = addr;
+        this.freq = 1;
     }
 }
 
@@ -36,7 +33,7 @@ class DoublyLinkedList {
             this.tail = newNode;
         }
         this.size++;
-        CacheMem[addr] = data;
+        CacheMem[addr] = { data: data, freq: 1 };
     }
 
     insertAfter(addr, data, address, showAlert) {
@@ -56,7 +53,7 @@ class DoublyLinkedList {
         current.next = newNode;
         if (current === this.tail) this.tail = newNode;
         this.size++;
-        CacheMem[addr] = data;
+        CacheMem[addr] = { data: data, freq: 1 };
     }
 
     insertBefore(addr, data, address, showAlert) {
@@ -76,7 +73,7 @@ class DoublyLinkedList {
         current.prev = newNode;
         if (current === this.head) this.head = newNode;
         this.size++;
-        CacheMem[addr] = data;
+        CacheMem[addr] = { data: data, freq: 1 };
     }
 
     deleteNode(addr, showAlert) {
@@ -96,13 +93,53 @@ class DoublyLinkedList {
         delete CacheMem[addr];
     }
     removeHead() {
-        if (!dll.head) return;
+        if (!dll.head) {
+            return;
+        }
+        delete CacheMem[dll.head.addr];
         const nodeToRemove = dll.head;
         dll.head = dll.head.next;
         if (dll.head) dll.head.prev = null;
         if (nodeToRemove === dll.tail) dll.tail = null;
         dll.size--;
-      }
+    }
+
+    removeTail() {
+        if (!dll.tail) {
+            return;
+        }
+        delete CacheMem[dll.tail.addr];
+        const nodeToRemove = dll.tail;
+        dll.tail = dll.tail.prev;
+        if (dll.tail) dll.tail.next = null;
+        if (nodeToRemove === dll.head) dll.head = null;
+        dll.size--;
+    }
+
+    tempRemoveNode(addr) {
+        let nodeToRemove = this.head;
+        while (nodeToRemove && nodeToRemove.addr !== addr) {
+            nodeToRemove = nodeToRemove.next;
+        }
+        if (!nodeToRemove) return;
+        this.deleteNode(addr);
+    }
+
+    insertbasedonfreq(addr, data) {
+        if (!CacheMem[addr]) {
+            CacheMem[addr] = { data: data, freq: 1 };
+        }
+        let current = this.head;
+        while (current && CacheMem[current.addr]['freq'] >= CacheMem[addr]['freq']) {
+            current = current.next;
+        }
+        if (!current) {
+            this.addNode(addr, data);
+            return;
+        }
+        let targetAddr = current.addr;
+        this.insertBefore(addr, data, targetAddr);
+    }
 
     toNodeArray() {
         const nodes = [];
@@ -180,6 +217,7 @@ export default function DLL({ mode, showAlert, algo }) {
                 label: `Node ${index + 1}`,
                 addr: node.addr.toString(),
                 val: node.data,
+                freq: node.freq,
                 prev: node.prev ? node.prev.addr.toString() : 'NULL',
                 next: node.next ? node.next.addr.toString() : 'NULL',
             }
@@ -241,36 +279,67 @@ export default function DLL({ mode, showAlert, algo }) {
     }, [mode, renderLinkedList]);
 
     const handleQuery = () => {
-        if (dll.size >= dll.maxSize) {
-            showAlert('Cache Full', 'danger');
-            switch (algo) {
-                case 'FiFo':
-                    if (dll.size === dll.maxSize) {
-                        dll.removeHead();
-                    }
-                    dll.addNode(queryAdd, nodeDataToAdd);
-                    break;
-                case 'LRU':
-                    break;
-                case 'LFU':
-                    break;
-                case 'LiFo':
-                    break;
-                default:
-                    break;
-                
-            }
-            renderLinkedList();
-            return;
-
-        }
         if (queryAdd === '') {
             showAlert('Please Enter Memory Address to Query or Click on the Address in the Table below', 'danger');
             return;
         }
-        if (nodeDataToAdd === '') showAlert('Node Initialized with Empty Data', 'warning');
+        if (nodeDataToAdd === '') showAlert('Node can\'t be Initialized with Empty Data', 'warning');
+        switch (algo) {
+            case 'FiFo':
+                if (CacheMem[queryAdd]) {
+                    showAlert('Cache Hit', 'success');
+                    return;
+                }
+                if (dll.size === dll.maxSize) {
+                    showAlert('Cache Miss! Using FiFo Replacement Policy', 'warning');
+                    dll.removeHead();
+                }
+                break;
+            case 'LRU':
+                if (CacheMem[queryAdd]) {
+                    showAlert('Cache Hit', 'success');
+                    dll.tempRemoveNode(queryAdd);
+                    renderLinkedList();
+                    dll.addNode(queryAdd, memoryData.find((cell) => cell.address === queryAdd)?.data);
+                    renderLinkedList();
+                    return;
+                }
+                if (dll.size === dll.maxSize) {
+                    dll.removeHead()
+                    showAlert('Cache Miss! Using LRU Replacement Policy', 'warning');
+                }
+                break;
+            case 'LFU':
+                if (CacheMem[queryAdd]) {
+                    showAlert('Cache Hit', 'success');
+                    console.log(CacheMem[queryAdd].freq);
+                    CacheMem[queryAdd].freq = CacheMem[queryAdd].freq + 1;
+                    dll.tempRemoveNode(queryAdd);
+                    dll.insertbasedonfreq(queryAdd, memoryData.find((cell) => cell.address === queryAdd)?.data);
+                    renderLinkedList();
+                    return;
+                }
+                if (dll.size === dll.maxSize) {
+                    dll.removeHead();
+                    showAlert('Cache Miss! Using LFU Replacement Policy', 'warning');
+                }
+                dll.insertbasedonfreq(queryAdd, nodeDataToAdd);
+                renderLinkedList();
+                return;
+            case 'LiFo':
+                if (CacheMem[queryAdd]) {
+                    showAlert('Cache Hit', 'success');
+                    return;
+                }
+                if (dll.size === dll.maxSize) {
+                    dll.removeTail();
+                    showAlert('Cache Miss! Using LiFo Replacement Policy', 'warning');
+                }
+                break;
+            default:
+                break;
+        }
         dll.addNode(queryAdd, nodeDataToAdd);
-        setNodeDataToAdd("");
         renderLinkedList();
     };
 
