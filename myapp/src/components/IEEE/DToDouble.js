@@ -4,6 +4,9 @@ const DToDouble = (number) => {
     if (number === 0) {
         steps.ieeeBinary = "0".repeat(64); // IEEE representation of zero for double precision
         steps.note = "The IEEE 754 double precision representation for zero has all bits set to zero.";
+        steps.exponentBinary="00000000000";
+        steps.mantissaBinary="0000000000000000000000000000000000000000000000000000";
+        steps.sign=0;
         return steps;
     }
 
@@ -12,12 +15,18 @@ const DToDouble = (number) => {
         steps.note = number > 0
             ? "The IEEE 754 representation for positive infinity has the sign bit as 0, exponent as 2047, and all mantissa bits as zero."
             : "The IEEE 754 representation for negative infinity has the sign bit as 1, exponent as 2047, and all mantissa bits as zero.";
+        steps.sign = number > 0 ? 0 : 1;
+        steps.exponentBinary="11111111111";
+        steps.mantissaBinary="0000000000000000000000000000000000000000000000000000";
         return steps;
     }
 
     if (isNaN(number)) {
         steps.ieeeBinary = "0111111111111000000000000000000000000000000000000000000000000000";
         steps.note = "The IEEE 754 representation for NaN (Not a Number) has an exponent of 2047 and a non-zero mantissa.";
+        steps.exponentBinary="11111111111";
+        steps.sign=0;
+        steps.mantissaBinary="1000000000000000000000000000000000000000000000000000";
         return steps;
     }
 
@@ -46,7 +55,7 @@ const DToDouble = (number) => {
     }
 
     // Round the normalized number to prevent floating-point errors
-    steps.normalizedNumber = roundTo(tempPower, 10);
+    steps.normalizedNumber =tempPower;
     steps.unbiasedExponent = exponent;
 
     // Calculate biased exponent for double precision
@@ -55,8 +64,8 @@ const DToDouble = (number) => {
     steps.exponentBinary = biasedExponent.toString(2).padStart(11, "0");
 
     // Calculate mantissa, rounded to avoid floating-point issues
-    const mantissa = steps.normalizedNumber - 1;
-    steps.mantissa = roundTo(mantissa, 10);
+    const mantissa = parseFloat("0"+(steps.normalizedNumber).toString().slice(1));;
+    steps.mantissa = mantissa;
 
     // Convert mantissa to binary representation
     let mantissaBinary = steps.mantissa.toString(2).split(".")[1] || "";
@@ -65,12 +74,7 @@ const DToDouble = (number) => {
 
     // Combine for final IEEE 754 binary representation
     steps.ieeeBinary = `${sign}${steps.exponentBinary}${mantissaBinary}`;
-    console.log("Steps", steps);
     return steps;
-};
-
-const roundTo = (value, decimals) => {
-    return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 };
 
 export default DToDouble;
