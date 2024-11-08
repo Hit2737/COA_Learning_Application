@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+import React, { useEffect, useRef, useMemo, useCallback } from 'react'
 import Chart from 'chart.js/auto'
 
 export default function EfficiencyVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, overhead }) {
-    const EfficiencyfromCoreCnt = (coreCnt) => {
+    const EfficiencyfromCoreCnt = useCallback((coreCnt) => {
         let tIns = Number(seqIns) + Number(parIns);
         let sExeTime = seqIns * cpi / clkRate;
         let pExeTime = (Number(coreCnt) < Number(parIns)) ? parIns * cpi / clkRate / coreCnt : cpi / clkRate;
@@ -10,7 +10,7 @@ export default function EfficiencyVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, o
         let tExeTime = sExeTime + pExeTime + Number(overhead);
         let speedup = tSeqExeTime / tExeTime;
         return speedup / coreCnt;
-    }
+    }, [seqIns, parIns, cpi, clkRate, overhead]);
 
 
     const data = useMemo(() => {
@@ -22,7 +22,7 @@ export default function EfficiencyVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, o
             });
         }
         return data;
-    }, [n, seqIns, parIns, cpi, clkRate, overhead]);
+    }, [n, EfficiencyfromCoreCnt]);
 
     const chartRef = useRef(null);
     const canvasRef = useRef(null);
@@ -70,8 +70,6 @@ export default function EfficiencyVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, o
         });
     }, [data]);
     return (
-        <div className='container' style={{ width: '800px' }}>
-            <canvas ref={canvasRef} id="acquisitions" className="chart"></canvas>
-        </div>
+        <canvas ref={canvasRef} id="acquisitions" className="chart"></canvas>
     )
 }

@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 export default function SpeedUpVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, overhead }) {
 
-    const SpeedUpfromCoreCnt = (coreCnt) => {
+    const SpeedUpfromCoreCnt = useCallback((coreCnt) => {
         console.log(Number(overhead))
         let tIns = Number(seqIns) + Number(parIns);
         return (tIns * cpi / clkRate) / (seqIns * cpi / clkRate + ((Number(coreCnt) < Number(parIns)) ? parIns * cpi / clkRate / coreCnt : cpi / clkRate) + Number(overhead));
-    }
+    }, [seqIns, parIns, cpi, clkRate, overhead]);
     const data = useMemo(() => {
         const data = [];
         for (let i = 1; i <= n; i++) {
@@ -17,7 +17,7 @@ export default function SpeedUpVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, over
             });
         }
         return data;
-    }, [n, seqIns, parIns, cpi, clkRate, overhead]);
+    }, [n, SpeedUpfromCoreCnt]);
 
     const chartRef = useRef(null);
     const canvasRef = useRef(null);
@@ -66,8 +66,6 @@ export default function SpeedUpVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, over
     }, [data]);
 
     return (
-        <div className='container' style={{ width: '800px' }}>
-            <canvas ref={canvasRef} id="acquisitions" className="chart"></canvas>
-        </div>
+        <canvas ref={canvasRef} id="acquisitions" className="chart"></canvas>
     );
 }
