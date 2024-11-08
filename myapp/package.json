@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-latex": "^2.0.3",
     "@xyflow/react": "^12.3.4",
+    "chart.js": "^4.4.6",
     "d3": "^7.9.0",
     "katex": "^0.16.11",
     "react": "^18.3.1",

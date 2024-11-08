@@ -117,7 +117,7 @@ export default function DLL({ mode, showAlert, algo }) {
         ].filter(Boolean));
 
         setEdges(newEdges);
-    }, [setNodes, setEdges, mode, initialNodes, algo, defaultEdgeOptions]); // Include defaultEdgeOptions as a dependency
+    }, [setNodes, setEdges, initialNodes, algo, defaultEdgeOptions]);
 
 
     useEffect(() => {

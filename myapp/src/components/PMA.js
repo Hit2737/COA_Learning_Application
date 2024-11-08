@@ -47,7 +47,7 @@ export default function PerformanceMetricAnalyser({ mode, showAlert }) {
                 </div>
             </div>
 
-            <Graphs coreCount={coreCount} seqIns={seqIns} parIns={parIns} cpi={cpi} clkRate={clkRate} overhead={overhead} />
+            <Graphs mode={mode} coreCount={coreCount} seqIns={seqIns} parIns={parIns} cpi={cpi} clkRate={clkRate} overhead={overhead} />
         </>
     )
 }
