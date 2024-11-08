@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DropDown from './CS/DropDown';
+import DropDown from './DropDown';
 import DLL from './CS/DLL';
 
 export default function CacheSimulator({ mode, showAlert }) {
