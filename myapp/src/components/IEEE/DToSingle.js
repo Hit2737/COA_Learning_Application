@@ -60,14 +60,11 @@ const DToSingle = (number) => {
 
     // Convert mantissa to binary representation
     let mantissaBinary = steps.mantissa.toString(2).split(".")[1] || "";
-    console.log(steps.mantissa.toString(2));
-    console.log(mantissaBinary);
     mantissaBinary = mantissaBinary.padEnd(23, "0").slice(0, 23);
     steps.mantissaBinary = mantissaBinary;
 
     // Combine for final IEEE 754 binary representation
     steps.ieeeBinary = `${sign}${steps.exponentBinary}${mantissaBinary}`;
-    console.log("Steps",steps);
     return steps;
 };
 
