@@ -4,11 +4,12 @@ import About from './components/About';
 import PerformanceMetricAnalyser from './components/PMA';
 import NumberConvertor from './components/NC';
 import CacheSimulator from './components/CS';
+import IEEE from './components/IEEE.js';
 import './App.css';
 import { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom'
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Alert from './components/Alert';
+import CacheTheory from './components/CacheTheory';
 
 function App() {
 
@@ -51,6 +52,8 @@ function App() {
             <Route exact path='/performacemetricanalyser' element={<PerformanceMetricAnalyser mode={mode} showAlert={showAlert} />} />
             <Route exact path='/numberconvertor' element={<NumberConvertor mode={mode} showAlert={showAlert} />} />
             <Route exact path='/cachesimulator' element={<CacheSimulator mode={mode} showAlert={showAlert} />} />
+            <Route exact path='/ieee' element={<IEEE mode={mode} showAlert={showAlert} />} />
+            <Route path="/cache-theory" element={<CacheTheory />} />
           </Routes>
         </div>
       </Router>

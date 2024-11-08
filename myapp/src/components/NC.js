@@ -1,7 +1,6 @@
 import DropDown from './NC/DropDown'
 import {DisplaySteps,isValidInput} from './NC/DisplaySteps'
-import { useState } from 'react'
-import IeeeSinglePrecision from './NC/DecimalToIeeeSingle'
+import { useState } from 'react';
 
 
 export default function NumberConvertor({mode}) {
