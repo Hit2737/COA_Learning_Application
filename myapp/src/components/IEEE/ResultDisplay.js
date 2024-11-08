@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
 import DToSingle from './DToSingle';
@@ -16,7 +15,7 @@ function binaryToDecimal(binaryStr) {
     let decimalResult = decimalInteger + decimalFraction;
     return decimalResult;
 }
-const ResultDisplay = ({number,setNumber,setSteps,steps,fpType}) => {
+export default function ResultDisplay({number,setNumber,setSteps,steps,fpType}){
     const signBit = (steps.sign===0)? 1:-1;
     const exponent = 2**parseInt(steps.unbiasedExponent);
     const normalisedNumber = 1+binaryToDecimal("0."+steps.mantissaBinary);
@@ -27,7 +26,6 @@ const ResultDisplay = ({number,setNumber,setSteps,steps,fpType}) => {
     function handleNumberChange(e){
         setNumber(e.target.value);
         if(e.target.value === ""){
-            console.log("Undefined Guys");
             setSteps({});
         }
         else{
@@ -62,16 +60,16 @@ const ResultDisplay = ({number,setNumber,setSteps,steps,fpType}) => {
         </div>
         <div className="input-group mb-3">
             <span className="input-group-text" id="inputGroup-sizing-sm" style={style}>Binary Representation</span>
-            <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={steps.ieeeBinary} disabled/>
+            <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={number===""?"":steps.ieeeBinary} disabled/>
         </div>
         <div className="input-group mb-3">
             <span className="input-group-text" id="inputGroup-sizing-sm" style={style}>Hex Representation</span>
-            <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"  value={"0x"+parseInt(steps.ieeeBinary,2).toString(16)} disabled/>
+            <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"  value={number===""?"":"0x"+parseInt(steps.ieeeBinary,2).toString(16)} disabled/>
         </div>
         <div className="container p-3" style={{fontSize:"0.7em"}}>
             <div className="row align-items-center text-center" style={{margin:"auto"}}>
                 <div className="col-2">
-                    <h5></h5>
+                    <h5> </h5>
                 </div>
                 <div className="col-2">
                     <h5>Sign</h5>
@@ -130,5 +128,3 @@ const ResultDisplay = ({number,setNumber,setSteps,steps,fpType}) => {
     </div>
   );
 };
-
-export default ResultDisplay;

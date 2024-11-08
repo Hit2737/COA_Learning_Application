@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import DToSingleSteps from './IEEE/DToSingleSteps';
+import StepsDisplay from './IEEE/StepsDisplay';
 import ResultDisplay from './IEEE/ResultDisplay';
+import DToSingle from './IEEE/DToSingle';
+import DToDouble from './IEEE/DToDouble';
 
 export default function IEEE({ mode, showAlert }) {
     const [fpType, setFpType] = useState('FP32');
@@ -10,8 +12,21 @@ export default function IEEE({ mode, showAlert }) {
 
     const toggleExpand=()=> setShowSteps(!showSteps);
     console.log("Rendering")
+    console.log("FFFFFP",fpType);
+
     function handleClick(e) {
         setFpType(e.target.id);
+        if(number === ""){
+            setSteps({});
+        }
+        else{
+            if(e.target.id==="FP32"){
+                setSteps(DToSingle(parseFloat(number)));
+            }
+            else{
+                setSteps(DToDouble(parseFloat(number)));
+            }
+        }
     }
     return (
         <div>
@@ -51,10 +66,10 @@ export default function IEEE({ mode, showAlert }) {
 
                 {/* Collapsible content with Bootstrap collapse class */}
                 <div className={`collapse ${showSteps ? 'show' : ''}`} id="collapseContent">
-                    <div className="card card-body" style={{backgroundColor:(mode==="dark")?"rgb(45,50,69)":"white"}}>
+                    <div className="container">
                         <h3>Step-by-Step Conversion</h3>
-                        <DToSingleSteps 
-                            setNumber={setNumber}
+                        <StepsDisplay 
+                            fpType={fpType}
                             steps={steps}
                         />
                     </div>
