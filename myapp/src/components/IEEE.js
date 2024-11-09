@@ -9,10 +9,9 @@ export default function IEEE({ mode, showAlert }) {
     const [number, setNumber] = useState("");
     const [steps, setSteps] = useState({});
     const [showSteps, setShowSteps] = useState(false);
+    const [placeholder, setPlaceholder] = useState("Enter a number");
 
     const toggleExpand=()=> setShowSteps(!showSteps);
-    console.log("Rendering")
-    console.log("FFFFFP",fpType);
 
     function handleClick(e) {
         setFpType(e.target.id);
@@ -52,6 +51,8 @@ export default function IEEE({ mode, showAlert }) {
                 setNumber={setNumber}
                 setSteps={setSteps}
                 steps={steps}
+                placeholder={placeholder}
+                setPlaceholder={setPlaceholder}
             />
             <div className="container">
                 {/* Button to toggle expand/collapse */}

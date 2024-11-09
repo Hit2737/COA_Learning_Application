@@ -60,7 +60,7 @@ export default function StepsDisplay({ steps,fpType }) {
 
                     <Arrow />
 
-                    <StepCard
+                    <Step4Card
                         stepNumber="4"
                         title={`Mantissa(${fpType==="FP32"?"23":"52"} Bits) ➔`}
                         description="Fractional part after normalization (rounded to avoid floating-point errors):"
@@ -68,6 +68,8 @@ export default function StepsDisplay({ steps,fpType }) {
                         result={steps.mantissa}
                         secondaryResultLabel="Mantissa Bits:"
                         secondaryResult={steps.mantissaBinary}
+                        steps={steps}
+                        fpType={fpType}
                     />
 
                     <Arrow />
@@ -105,6 +107,38 @@ function StepCard({ stepNumber, title, description, resultLabel, result, listIte
                     <strong>{resultLabel}</strong>
                     <span className="highlight ms-2">{result}</span>
                 </p>
+                {secondaryResultLabel && (
+                    <p>
+                        <strong>{secondaryResultLabel}</strong>
+                        <span className="highlight ms-2">{secondaryResult}</span>
+                    </p>
+                )}
+                {additionalContent}
+            </div>
+        </div>
+    );
+}
+
+function Step4Card({ stepNumber, title, description, resultLabel, result, listItems, additionalContent, secondaryResultLabel, secondaryResult,steps,fpType }) {
+    return (
+        <div className="card shadow-sm mb-4 p-3 border-0">
+            <div className="card-body">
+                <h4 className="text-dark">Step {stepNumber}: {title}</h4>
+                <p>{description}</p>
+                <span>Normalized number = {steps.normalizedNumber} = 1.Mantissa</span>
+                <p>Convert the normalized number to binary:(Truncate or pad with zeros to the binary number upto {fpType==="FP64"? 52:23} decimal places)</p>
+                <strong>Normalized number(Binary):</strong><span> 1.{steps.mantissaBinary}</span>
+                {listItems && (
+                    <ul className="ms-3">
+                        {listItems.map((item, index) => (
+                            <li key={index} className="text-secondary">{item}</li>
+                        ))}
+                    </ul>
+                )}
+                {/* <p>
+                    <strong>{resultLabel}</strong>
+                    <span className="highlight ms-2">{result}</span>
+                </p> */}
                 {secondaryResultLabel && (
                     <p>
                         <strong>{secondaryResultLabel}</strong>
