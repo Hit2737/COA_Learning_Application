@@ -1,6 +1,6 @@
 // import React, {useState} from 'react'
 import { isValidInput } from './DisplaySteps';
-import { findDecimalValue } from './UtilityNC';
+import { convertBaseToDecimal } from './UtilityNC';
 const DropDown = ({ id, setBase, base , setValidInput, number , setDecimalValue, setShowSteps,setResult}) => {
     const val = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     const names = [
@@ -17,7 +17,7 @@ const DropDown = ({ id, setBase, base , setValidInput, number , setDecimalValue,
         }
         if(id==="convertFrom"){
             if(isValidInput(number,e.target.value)){
-                setDecimalValue(findDecimalValue(number,e.target.value));
+                setDecimalValue(convertBaseToDecimal(number,e.target.value));
                 setValidInput(true);
             }
             else{

@@ -1,7 +1,7 @@
 import DropDown from './NC/DropDown'
 import {DisplaySteps,isValidInput} from './NC/DisplaySteps'
 import { useState } from 'react';
-import { findDecimalValue } from './NC/UtilityNC';
+import { convertBaseToDecimal } from './NC/UtilityNC';
 
 export default function NumberConvertor({mode}) {
     const [number, setNumber] = useState("");
@@ -22,7 +22,7 @@ export default function NumberConvertor({mode}) {
             setDecimalValue(e.target.value);
         }
         if(isValidInput(e.target.value,fromBase)){
-            setDecimalValue(findDecimalValue(e.target.value,fromBase));
+            setDecimalValue(convertBaseToDecimal(e.target.value,fromBase));
             setValidInput(true);
         }
         else{
