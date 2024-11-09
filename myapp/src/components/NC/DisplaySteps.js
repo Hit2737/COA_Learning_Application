@@ -25,6 +25,7 @@ export function DisplaySteps({mode, number, fromBase, toBase,decimalValue, setDe
                 base={fromBase}
                 number={number}
                 setDecimalValue={setDecimalValue}
+                decimalValue={decimalValue}
                 mode={mode}
             />)}
             {(toBase===10)?null:(<DecimalToBase 
