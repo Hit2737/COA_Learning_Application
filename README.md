@@ -35,7 +35,7 @@ Convert numbers between **binary, decimal, octal, hexadecimal**, and even **IEEE
 ### 🧩 Cache Replacement Visualizer
 Simulate and understand cache replacement policies with this powerful visual tool.
 
-- **Supported Policies**: **LRU, FIFO, LFU, and Random Replacement**.
+- **Supported Policies**: **LRU, FIFO, LFU, and LIFO Replacement**.
 - **Cache Levels**: Switch between **L1 and L2** cache levels to see how each works in practice.
 - **Custom Parameters**: Adjust cache size, block size, and access patterns for deeper insights.
 
@@ -59,18 +59,23 @@ Visualize the conversion from decimal to IEEE-754 floating point formats (32 and
 ## 📷 Screenshots
 
 ### Performance Metric Analyzer
-![Performance Metric Analyzer](path/to/image1.png)
+<img src="img/PMA.png" width="100%" height="500px">
+
+### Number System Converter
+<img src="img/NC.png">
 
 ### Cache Replacement Visualizer
-![Cache Replacement Visualizer](path/to/image2.png)
+<img src="img/CS.png">
 
+### IEEE Floating Point Converter
+<img src="img/IEEE.png">
 ---
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React, React Flow
-- **Visualizations**: Chart.js, D3.js
-- **Styling**: CSS, Styled Components
+- **Visualizations**: Chart.js
+- **Styling**: CSS, Styled Components, Bootstrap
 
 ---
 
@@ -80,13 +85,13 @@ Visualize the conversion from decimal to IEEE-754 floating point formats (32 and
 - Node.js and npm installed
 - Clone the repository
   ```bash
-  git clone https://github.com/yourusername/COA-Educational-GUI-Tool.git
+  git clone https://github.com/Hit2737/COA_GUI_Tool_Project.git
   ```
   
 ### Installation
 1. Navigate to the project directory
    ```bash
-   cd COA-Educational-GUI-Tool
+   cd myapp
    ```
 2. Install dependencies
    ```bash
@@ -105,15 +110,15 @@ Visualize the conversion from decimal to IEEE-754 floating point formats (32 and
 1. **Performance Metric Analyzer**: Adjust sliders for core count, clock rate, and other parameters. Hit "Calculate" to see execution times and speedup.
 2. **Number Conversion**: Enter your base and number, select the target base, and see conversion steps.
 3. **Cache Simulator**: Choose a cache size, enter memory addresses, and watch the cache replacement policy in action.
-4. **IEEE Converter**: Enter a decimal number, select IEEE-754 format, and view the binary representation.
+4. **IEEE Converter**: Enter a decimal number, select IEEE-754 format, and view the binary representation. Use show and hide button to see or hide the conversion steps.
 
 ---
 
 ## 👥 Contributors
-- **Your Name** - Project Lead & Developer
-- **Team Member 2** - Performance Metric Analyzer
-- **Team Member 3** - Cache Replacement Visualizer
-- **Team Member 4** - Number Conversion Simulator
+- **Hitesh Kumar** - Project Lead & Performance Metric Analyzer & Cache Replacement Visualizer
+- **Bhavik Patel** - Number Conversion Simulator & IEEE Floating Point Converter 
+- **Ruchit Jagodhara** - IEEE Floating Point Converter 
+- **Jinil Patel** - Cache Replacement Visualizer
 
 ---
 
@@ -128,5 +133,3 @@ Special thanks to our mentors and reviewers who provided valuable feedback throu
 This project is licensed under the MIT License.
 
 ---
-
-Feel free to add this readme to your repository to make it more appealing and informative for other developers and users interested in COA concepts! Let me know if you'd like further customization or specific details included.
