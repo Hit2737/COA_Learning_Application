@@ -55,7 +55,7 @@ Visualize the conversion from decimal to IEEE-754 floating point formats (32 and
 ## 📷 Screenshots
 
 ### Performance Metric Analyzer
-<img src="img/PMA.png" width="100%" height="500px">
+<img src="img/PMA.png">
 
 ### Number System Converter
 <img src="img/NC.png">
