@@ -1,7 +1,3 @@
-Here's a detailed and visually engaging README for your GitHub repository:
-
----
-
 # 🚀 COA Educational GUI Tool 🎓
 
 **Enhance your understanding of Computer Organization and Architecture (COA) concepts with this interactive, web-based GUI tool!**
