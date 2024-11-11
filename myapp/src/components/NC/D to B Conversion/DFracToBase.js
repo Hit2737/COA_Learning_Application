@@ -33,7 +33,7 @@ function DFracToBase({mode, decimalValue, base ,setOutputFracVal}) {
             {(decimalFraction === 0) ? "There is no fractional value" 
                 : `The fractional value is ${(decimalValue - Math.floor(decimalValue)).toFixed(5)}`}
             </p>
-
+            {(decimalFraction === 0) ? null : <p className="text-center" style={{ fontSize: "0.8em" }}>Multiply fractional value by {base} untill the fraction remaining becomes 0.</p>}
             <div className="d-flex justify-content-center">
                 <table className="d2b-conversion-table">
                     <thead style={{backgroundColor:mode==="dark"?"#4c5473":"silver"}}>

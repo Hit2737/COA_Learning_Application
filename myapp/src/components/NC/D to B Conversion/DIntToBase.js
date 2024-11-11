@@ -49,6 +49,7 @@ function DIntToBase({mode, decimalValue, base ,setOutputIntVal}) {
     return (
         <div className='container nc-container align-items-center'>
             <p className="text-center" style={{fontSize:"0.8em"}}>The Integer value is {Math.floor(decimalValue)}</p>
+            <p className="text-center" style={{fontSize:"0.8em"}}>Divide the integer value by {base} untill Quotient becomes 0.</p>
             <div className="d-flex align-items-center">
                 <table className="d2b-conversion-table">
                     <thead style={{backgroundColor:mode==="dark"?"#4c5473":"silver"}}>
@@ -82,6 +83,7 @@ function DIntToBase({mode, decimalValue, base ,setOutputIntVal}) {
                     </tbody>
                 </table>
             </div>
+        
         </div>
     );
 }
