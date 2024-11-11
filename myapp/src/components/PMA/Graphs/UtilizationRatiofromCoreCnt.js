@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 export default function UtilizationRatioVsCoreCnt({ n, parIns, cpi, clkRate, overhead }) {
 
-    const UtilizationRatiofromCoreCnt = (coreCnt) => {
+    const UtilizationRatiofromCoreCnt = useCallback((coreCnt) => {
         return (Number(parIns) * Number(cpi)) / (coreCnt * Number(clkRate) + Number(overhead));
-    };
+    }, [parIns, cpi, clkRate, overhead]);
 
     const data = useMemo(() => {
         const data = [];
@@ -16,7 +16,7 @@ export default function UtilizationRatioVsCoreCnt({ n, parIns, cpi, clkRate, ove
             });
         }
         return data;
-    }, [n, parIns, cpi, clkRate, overhead]);
+    }, [n, UtilizationRatiofromCoreCnt]);
 
     const chartRef = useRef(null);
     const canvasRef = useRef(null);

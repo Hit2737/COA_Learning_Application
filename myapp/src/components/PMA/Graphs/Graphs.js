@@ -45,9 +45,9 @@ function Graphs({ mode }) {
                     <label htmlFor="coreCount">Core Count: {coreCount}</label>
                     <input id={'coreCount'} type="range" value={coreCount} onChange={(e) => { setCoreCount(e.target.value) }} step={1} min={1} max={20} style={{ width: '100%', accentColor: '#6c757d' }} />
                     <label htmlFor="seqIns">Seq. Inst.: {seqIns}</label>
-                    <input id={'seqIns'} type="range" value={seqIns} onChange={(e) => { setSeqIns(e.target.value) }} step={1} min={0} max={10000} style={{ width: '100%', accentColor: '#6c757d' }} />
+                    <input id={'seqIns'} type="range" value={seqIns} onChange={(e) => { setSeqIns(e.target.value) }} step={10} min={0} max={1000} style={{ width: '100%', accentColor: '#6c757d' }} />
                     <label htmlFor="parIns">Par. Inst.: {parIns}</label>
-                    <input id={'parIns'} type="range" value={parIns} onChange={(e) => { setParIns(e.target.value) }} step={1} min={0} max={10000} style={{ width: '100%', accentColor: '#6c757d' }} />
+                    <input id={'parIns'} type="range" value={parIns} onChange={(e) => { setParIns(e.target.value) }} step={10} min={0} max={1000} style={{ width: '100%', accentColor: '#6c757d' }} />
                     <label htmlFor="cpi">CPI: {cpi}</label>
                     <input id={'cpi'} type="range" value={cpi} onChange={(e) => { setCPI(e.target.value) }} step={0.005} min={0.005} max={10} style={{ width: '100%', accentColor: '#6c757d' }} />
                     <label htmlFor="clkRate">Clock Rate: {clkRate} (GHz)</label>

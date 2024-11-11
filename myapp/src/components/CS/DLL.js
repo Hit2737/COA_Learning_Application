@@ -43,8 +43,18 @@ export default function DLL({ mode, showAlert, algo }) {
             draggable: false,
             position: { x: 30, y: 0 },
             data: { label: 'Head', arrowStyle: { top: 5, left: 0 } }
+        },
+        {
+            id: 'annotate2',
+            type: 'annotation',
+            mode: mode,
+            draggable: false,
+            position: { x: 100, y: 0 },
+            data: {
+                label: algo === 'LFU' || algo === 'LRU' ? algo + ' Node' : 'Removable Node', arrowStyle: { top: 5, left: 0 }
+            }
         }
-    ]), [mode]);
+    ]), [mode, algo]);
     const [nodes, setNodes] = useNodesState(initialNodes);
     const [edges, setEdges] = useEdgesState([]);
     const [nodeDataToAdd, setNodeDataToAdd] = useState("");
