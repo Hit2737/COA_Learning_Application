@@ -2,7 +2,7 @@ import React from 'react';
 import './BaseToDecimal.css';
 import { BlockMath } from 'react-katex';
 import 'katex/dist/katex.min.css';
-
+import TooltipExample from './TooltipExample';
 
 const BaseToDecimal = ({ number, base,decimalValue, mode }) => {
     let noFracFlag=0;
@@ -13,12 +13,12 @@ const BaseToDecimal = ({ number, base,decimalValue, mode }) => {
     if(fractionPart.length===0){
         noFracFlag=1;
     }
+    console.log(base, decimalValue, number);
     return (
         <div className="nc-container p-3 mb-5" style={{borderRadius: '8px',textAlign:"center",background:(mode==="dark")?"rgb(55 61 83)":"#F5F5F5"}}>
-            <h4 className="text-center">Base-{base} to Decimal Conversion</h4>
+            <h4 className="text-center">Base-{base} to Decimal Conversion  <span><TooltipExample base={base} result={decimalValue} number={number}/></span></h4>
             <div className="row justify-content-center py-3">
                 <div className="col-auto">
-                    <div className="b2d-conversion-container">
                         <div className="b2d-conversion-row d-flex align-items-center">
                             <div className="scrollable-row d-flex align-items-center">
                                 {integerPart.map((digit, index) => (
@@ -34,7 +34,6 @@ const BaseToDecimal = ({ number, base,decimalValue, mode }) => {
                                 ))}
                             </div>
                         </div>
-                    </div>
 
                     {/* Multiplication Symbol */}
                     <div className="symbol text-center ">×</div>
