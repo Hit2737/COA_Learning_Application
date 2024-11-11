@@ -1,7 +1,7 @@
 import DropDown from './NC/DropDown'
-import {DisplaySteps,isValidInput} from './NC/DisplaySteps'
+import {DisplaySteps} from './NC/DisplaySteps'
 import { useState } from 'react';
-import { convertBaseToDecimal } from './NC/UtilityNC';
+import { convertBaseToDecimal, isValidInput } from './NC/UtilityNC';
 
 export default function NumberConvertor({mode}) {
     const [number, setNumber] = useState("");

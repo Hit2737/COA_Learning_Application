@@ -74,3 +74,12 @@ export function convertDecimalToBase(decimalValue, toBase) {
     // Combine integer and fractional parts
     return fractionalResult ? `${integerResult}.${fractionalResult}` : integerResult;
 }
+
+/*
+Checks the validity of the input given by the user
+*/
+export function isValidInput(input, base) {
+    const validChars = "0123456789ABCDEF".slice(0, base);
+    const regex = new RegExp(`^[${validChars}]+(\\.[${validChars}]+)?$`, "i");
+    return regex.test(input);
+}

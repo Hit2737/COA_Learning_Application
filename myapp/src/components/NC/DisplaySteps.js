@@ -1,13 +1,7 @@
 import BaseToDecimal from './B to D Conversion/BaseToDecimal'
 import DecimalToBase from './D to B Conversion/DecimalToBase'
 import ShowResult from './ShowResult'
-
-
-export function isValidInput(input, base) {
-    const validChars = "0123456789ABCDEF".slice(0, base);
-    const regex = new RegExp(`^[${validChars}]+(\\.[${validChars}]+)?$`, "i");
-    return regex.test(input);
-}
+import { isValidInput } from './UtilityNC';
 
 // number-->string of the number(string)
 // fromBase-->base of the number(int)
