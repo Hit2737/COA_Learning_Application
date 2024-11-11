@@ -4,7 +4,7 @@ export default function Navbar({ title = 'NavBar', mode = 'light', toggleMode })
     return (
         <nav className={`navbar navbar-expand-lg navbar-${mode} bg-${mode}`} style={{ position: 'sticky', width: '100%', top: '0', zIndex: '100' }}>
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">{title}</Link>
+                <Link className="navbar-brand" to='/'>{title}</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
