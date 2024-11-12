@@ -10,6 +10,15 @@ const DToDouble = (number) => {
         return steps;
     }
 
+    if (isNaN(number)) {
+        steps.ieeeBinary = "0111111111111000000000000000000000000000000000000000000000000000";
+        steps.note = "The IEEE 754 representation for NaN (Not a Number) has an exponent of 2047 and a non-zero mantissa.";
+        steps.exponentBinary="11111111111";
+        steps.sign=0;
+        steps.mantissaBinary="1000000000000000000000000000000000000000000000000000";
+        return steps;
+    }
+
     if (!isFinite(number)) {
         steps.ieeeBinary = number > 0 ? "0111111111110000000000000000000000000000000000000000000000000000" : "1111111111110000000000000000000000000000000000000000000000000000";
         steps.note = number > 0
@@ -21,14 +30,6 @@ const DToDouble = (number) => {
         return steps;
     }
 
-    if (isNaN(number)) {
-        steps.ieeeBinary = "0111111111111000000000000000000000000000000000000000000000000000";
-        steps.note = "The IEEE 754 representation for NaN (Not a Number) has an exponent of 2047 and a non-zero mantissa.";
-        steps.exponentBinary="11111111111";
-        steps.sign=0;
-        steps.mantissaBinary="1000000000000000000000000000000000000000000000000000";
-        return steps;
-    }
 
     const sign = number < 0 ? 1 : 0;
     steps.sign = sign;

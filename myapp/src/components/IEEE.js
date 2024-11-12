@@ -15,15 +15,38 @@ export default function IEEE({ mode, showAlert }) {
 
     function handleClick(e) {
         setFpType(e.target.id);
-        if(number === ""){
+        if(number === "" && placeholder === "Enter a number"){
             setSteps({});
         }
-        else{
+        else if(number === "0"){
+            setSteps(DToSingle(0));
+        }
+        else if(placeholder ==="Enter a number"){
             if(e.target.id==="FP32"){
                 setSteps(DToSingle(parseFloat(number)));
             }
             else{
                 setSteps(DToDouble(parseFloat(number)));
+            }
+        }
+        else {
+            if(e.target.id==="FP32"){
+                if(placeholder==="Infinity"){
+                    setSteps(DToSingle(Infinity));
+                }else if(placeholder==="-Infinity"){
+                    setSteps(DToSingle(-Infinity));
+                }else{
+                    setSteps(DToSingle(NaN));
+                }
+            }
+            else{
+                if(placeholder==="Infinity"){
+                    setSteps(DToDouble(Infinity));
+                }else if(placeholder==="-Infinity"){
+                    setSteps(DToDouble(-Infinity));
+                }else{
+                    setSteps(DToDouble(NaN));
+                }
             }
         }
     }
