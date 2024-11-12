@@ -36,7 +36,6 @@ converts the decimal value to the given base
 */
 export function convertDecimalToBase(decimalValue, toBase) {
     // decimalValue = decimalValue.toString();
-    console.log(decimalValue);
     if (toBase < 2 || toBase > 16) {
         return "Invalid base. Please use a base between 2 and 16.";
     }
