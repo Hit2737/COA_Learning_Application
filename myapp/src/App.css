@@ -78,5 +78,13 @@ body{
   .cdisplay {
     display: block;
   }
-  
+  .DToB{
+    width: 100%;
+  }
+  .dTob{
+    overflow:auto;
+  }
+  .tableCon{
+    display:block;
+  }
 }

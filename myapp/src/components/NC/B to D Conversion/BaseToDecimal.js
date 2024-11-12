@@ -22,7 +22,7 @@ const BaseToDecimal = ({ number, base, decimalValue, mode }) => {
                         <div className="scrollable-row d-flex align-items-center">
                             {integerPart.map((digit, index) => (
                                 <div key={index} className="box mx-2 my-1">
-                                    <span className="digit-top">{digit}</span>
+                                    <span className="digit-top" style={{width: '100px'}}>{digit}</span>
                                 </div>
                             ))}
                             {noFracFlag === 1 ? null : <span className="dot mx-2">.</span>}
