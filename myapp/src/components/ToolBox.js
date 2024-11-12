@@ -12,13 +12,13 @@ export default function ToolBox({ mode = 'light' }) {
                             <Tool mode={mode} title="Performance Metric Analyser" content="This tool will help you to analyse the performance of a Processor" goto="performacemetricanalyser" />
                         </div>
                         <div className="col-md-4">
-                            <Tool mode={mode} title="Number Convertor" content="This tool will help you to convert numbers from one base to another" goto="numberconvertor" />
+                            <Tool mode={mode} title="Number Converter" content="This tool will help you to convert numbers from one base to another" goto="numberconverter" />
                         </div>
                         <div className="col-md-4">
                             <Tool mode={mode} title="Cache Simulator" content="This tool will help you to simulate the cache memory" goto='cachesimulator' />
                         </div>
                         <div className="col-md-4">
-                            <Tool mode={mode} title="IEEE floating Conversion" content="This tool will help you to convert decimal numbers to IEEE floating point precision" goto='ieee' />
+                            <Tool mode={mode} title="IEEE floating Converter" content="This tool will help you to convert decimal numbers to IEEE floating point precision" goto='ieee' />
                         </div>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import {DisplaySteps} from './NC/DisplaySteps'
 import { useState } from 'react';
 import { convertBaseToDecimal, isValidInput } from './NC/UtilityNC';
 
-export default function NumberConvertor({mode}) {
+export default function NumberConverter({mode}) {
     const [number, setNumber] = useState("");
     const [fromBase, setFromBase] = useState(2);
     const [toBase, setToBase] = useState(16);
