@@ -28,7 +28,7 @@ const BaseToDecimal = ({ number, base, decimalValue, mode }) => {
                             {noFracFlag === 1 ? null : <span className="dot mx-2">.</span>}
                             {fractionPart.map((digit, index) => (
                                 <div key={index} className="box mx-2 my-1">
-                                    <span className="digit-top">{digit}</span>
+                                    <span className="digit-top" style={{width:"100px"}}>{digit}</span>
                                 </div>
                             ))}
                         </div>
@@ -58,7 +58,7 @@ const BaseToDecimal = ({ number, base, decimalValue, mode }) => {
                 </div>
                 <div className='col-auto d-flex align-items-center'>
                     <div className="symbol mx-2">=</div>
-                    <div className="result-box mx-2" style={{ backgroundColor: "white", color: "black" }}>
+                    <div className="result-box mx-2" style={{ backgroundColor: "white", color: "black",overflow:"auto" }}>
                         <span className="result">{decimalValue}</span>
                     </div>
                 </div>
