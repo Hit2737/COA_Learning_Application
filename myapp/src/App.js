@@ -1,8 +1,8 @@
 import Navbar from './components/Navbar';
 import ToolBox from './components/ToolBox';
-import About from './components/About';
+// import About from './components/About';
 import PerformanceMetricAnalyser from './components/PMA';
-import NumberConvertor from './components/NC';
+import NumberConverter from './components/NC';
 import CacheSimulator from './components/CS';
 import IEEE from './components/IEEE.js';
 import './App.css';
@@ -47,10 +47,10 @@ function App() {
         <div className="container my-3">
           <Routes>
             <Route exact path={'/'} element={<ToolBox mode={mode} />} />
-            <Route exact path={'/about'} element={<About />} />
+            {/* <Route exact path={'/about'} element={<About />} /> */}
             <Route exact path={'/performacemetricanalyser'} element={<PerformanceMetricAnalyser mode={mode} showAlert={showAlert} />} />
             <Route exact path={'/cachesimulator'} element={<CacheSimulator mode={mode} showAlert={showAlert} />} />
-            <Route exact path={'/numberconvertor'} element={<NumberConvertor mode={mode} showAlert={showAlert} />} />
+            <Route exact path={'/numberconverter'} element={<NumberConverter mode={mode} showAlert={showAlert} />} />
             <Route exact path='/ieee' element={<IEEE mode={mode} showAlert={showAlert} />} />
           </Routes>
         </div>
