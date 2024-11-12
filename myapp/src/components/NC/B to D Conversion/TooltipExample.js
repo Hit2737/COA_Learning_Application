@@ -95,7 +95,7 @@ const TooltipExample = ({ number, base, result }) => {
         onClick={toggleTooltip}
         style={{ backgroundColor: '#c0c0c0', fontSize: '0.6em' }}
       >
-        Raw Steps
+        View Raw Format
       </button>
       <CloudTooltip visible={visible}>
         <BaseConversionTooltip number={number} base={base} result={result} />
