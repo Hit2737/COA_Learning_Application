@@ -32,7 +32,6 @@ Convert numbers between **binary, decimal, octal, hexadecimal**, and even **IEEE
 Simulate and understand cache replacement policies with this powerful visual tool.
 
 - **Supported Policies**: **LRU, FIFO, LFU, and LIFO Replacement**.
-- **Cache Levels**: Switch between **L1 and L2** cache levels to see how each works in practice.
 - **Custom Parameters**: Adjust cache size, block size, and access patterns for deeper insights.
 
 ### 🔍 IEEE Floating Point Converter
