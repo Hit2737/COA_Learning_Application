@@ -260,7 +260,7 @@ export default function DLL({ mode, showAlert, algo }) {
     return (
         <div className="container border" style={{ borderRadius: '10px', backgroundColor: mode === 'light' ? 'whitesmoke' : 'rgb(38 42 55)' }}>
             <div className="mt-4">
-                <div className="container d-flex align-items-center justify-content-start">
+                <div className="cs-input container align-items-center justify-content-start">
                     <div className="container">
                         <h5>Cache Size:</h5>
                         <input
@@ -293,7 +293,7 @@ export default function DLL({ mode, showAlert, algo }) {
                     </div>
                 </div>
             </div>
-            <div className="container row">
+            <div className='cdisplay container row'>
                 <div className='container my-3 col-8' style={{ height: '70vh' }}>
                     <ReactFlow
                         nodes={nodes}

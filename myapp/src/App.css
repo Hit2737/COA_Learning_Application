@@ -58,8 +58,24 @@ body{
   display: flex;
 }
 
+.cs-input {
+  display: flex;
+}
+.cdisplay {
+  display: flex;
+}
+
+@media screen and (max-width: 1420px) {
+  .cs-input {
+    display: block;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   .graph {
+    display: block;
+  }
+  .cdisplay {
     display: block;
   }
   
