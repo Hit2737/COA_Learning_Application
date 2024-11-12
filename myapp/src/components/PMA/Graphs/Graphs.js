@@ -40,7 +40,7 @@ function Graphs({ mode }) {
                 <h1>Graphs</h1>
                 <DropDown mode={mode} value={chart} setValue={setChart} options={chartlist} />
             </div>
-            <div className="container d-flex" style={{ alignItems: 'center' }}>
+            <div className="graph container" style={{ alignItems: 'center' }}>
                 <div className="container" style={{ width: '300px' }}>
                     <label htmlFor="coreCount">Core Count: {coreCount}</label>
                     <input id={'coreCount'} type="range" value={coreCount} onChange={(e) => { setCoreCount(e.target.value) }} step={1} min={1} max={20} style={{ width: '100%', accentColor: '#6c757d' }} />
@@ -55,7 +55,7 @@ function Graphs({ mode }) {
                     <label htmlFor="overhead">Overhead Time: {overhead} (ns)</label>
                     <input id={'overhead'} type="range" value={overhead} onChange={(e) => { setOverhead(e.target.value) }} step={10} min={0} max={1000} style={{ width: '100%', accentColor: '#6c757d' }} />
                 </div>
-                <div className={`container`} style={{ width: '800px', backgroundColor: mode === 'light' ? 'whitesmoke' : 'rgb(43 46 60)', borderRadius: '10px', border: '1px solid #6c757d' }}>
+                <div className={`container`} style={{ height: '400px', width: '800px', backgroundColor: mode === 'light' ? 'whitesmoke' : 'rgb(43 46 60)', borderRadius: '10px', border: '1px solid #6c757d' }}>
                     {ThisChart}
                 </div>
             </div>

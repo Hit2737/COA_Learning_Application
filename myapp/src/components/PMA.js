@@ -21,7 +21,6 @@ export default function PerformanceMetricAnalyser({ mode, showAlert }) {
     const [clkRate, setClkRate] = useState(4);
     const [overhead, setOverhead] = useState(0);
     // one more missing state
-    // console.log(coreCount, seqIns, parIns, cpi, clkRate);
     return (
         <>
             <h1 className="text-center my-3">Performance Metric Analyser</h1>

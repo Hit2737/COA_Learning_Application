@@ -4,7 +4,6 @@ import Chart from 'chart.js/auto';
 export default function SpeedUpVsCoreCnt({ n, seqIns, parIns, cpi, clkRate, overhead }) {
 
     const SpeedUpfromCoreCnt = useCallback((coreCnt) => {
-        console.log(Number(overhead))
         let tIns = Number(seqIns) + Number(parIns);
         return (tIns * cpi / clkRate) / (seqIns * cpi / clkRate + ((Number(coreCnt) < Number(parIns)) ? parIns * cpi / clkRate / coreCnt : cpi / clkRate) + Number(overhead));
     }, [seqIns, parIns, cpi, clkRate, overhead]);

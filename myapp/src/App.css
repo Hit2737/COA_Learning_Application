@@ -53,3 +53,14 @@ body{
 .collapse {
   transition: height 0.35s ease;
 }
+
+.graph {
+  display: flex;
+}
+
+@media screen and (max-width: 1200px) {
+  .graph {
+    display: block;
+  }
+  
+}
