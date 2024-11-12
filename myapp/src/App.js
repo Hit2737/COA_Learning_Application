@@ -1,6 +1,6 @@
 import Navbar from './components/Navbar';
 import ToolBox from './components/ToolBox';
-import About from './components/About';
+// import About from './components/About';
 import PerformanceMetricAnalyser from './components/PMA';
 import NumberConvertor from './components/NC';
 import CacheSimulator from './components/CS';
