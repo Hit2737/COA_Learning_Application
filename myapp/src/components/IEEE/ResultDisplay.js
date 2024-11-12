@@ -46,17 +46,33 @@ export default function ResultDisplay({number,setNumber,setSteps,steps,fpType,pl
     }
     function handleClick(e){
         setNumber("");
-        if(e.target.id==="inf"){
-            setPlaceholder("Infinity");
-            setSteps(DToSingle(Infinity));
-        }
-        else if(e.target.id==="-inf"){
-            setPlaceholder("-Infinity");
-            setSteps(DToSingle(-Infinity));
+        if(fpType==="FP32"){
+            if(e.target.id==="inf"){
+                setPlaceholder("Infinity");
+                setSteps(DToSingle(Infinity));
+            }
+            else if(e.target.id==="-inf"){
+                setPlaceholder("-Infinity");
+                setSteps(DToSingle(-Infinity));
+            }
+            else{
+                setPlaceholder("NaN");
+                setSteps(DToSingle(NaN));
+            }
         }
         else{
-            setPlaceholder("NaN");
-            setSteps(DToSingle(NaN));
+            if(e.target.id==="inf"){
+                setPlaceholder("Infinity");
+                setSteps(DToDouble(Infinity));
+            }
+            else if(e.target.id==="-inf"){
+                setPlaceholder("-Infinity");
+                setSteps(DToDouble(-Infinity));
+            }
+            else{
+                setPlaceholder("NaN");
+                setSteps(DToDouble(NaN));
+            }
         }
         return;
     }
