@@ -28,7 +28,7 @@ Convert numbers between **binary, decimal, octal, hexadecimal**, and even **IEEE
 - **Base Conversion**: Convert between any base system with step-by-step explanations.
 - **IEEE Converter**: Shows the conversion process from decimal to IEEE-754 (single and double precision), handling special cases like `+∞`, `-∞`, and `NaN`.
 
-### 🧩 Cache Replacement Visualizer
+### 🧩 Cache Replacement Policy Visualizer
 Simulate and understand cache replacement policies with this powerful visual tool.
 
 - **Supported Policies**: **LRU, FIFO, LFU, and LIFO Replacement**.
