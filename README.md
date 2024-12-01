@@ -117,12 +117,6 @@ Visualize the conversion from decimal to IEEE-754 floating point formats (32 and
 
 ---
 
-## 🌟 Acknowledgments
-
-Special thanks to our mentors and reviewers who provided valuable feedback throughout the development process. 
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License.
